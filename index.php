@@ -11,28 +11,17 @@ if (strncmp($requestUri, $base, strlen($base)) === 0) {
 switch ($requestPage) {
 	case "":
 		$template = "your-trips.php";
-		$includeHeaderFooter = true;
 		break;
 
 	case "your-trips":
 	case "new-expenses":
 		$template = "$requestPage.php";
-		$includeHeaderFooter = true;
 		break;
 
 	default:
 		$template = "404.html";
-		$includeHeaderFooter = false;
 		break;
 }
 
-if ($includeHeaderFooter) {
-	require 'header.php';
-}
-
 require $template;
-
-if ($includeHeaderFooter) {
-	require 'footer.php';
-}
 ?>

@@ -1,3 +1,5 @@
+<?php require 'header.php'; ?>
+
 <div class="row">
 	<div class="col-sm-4">
 		<h1>CashMoney</h1>
@@ -29,3 +31,5 @@
 		});
 	})
 </script>
+
+<?php require 'footer.php'; ?>
