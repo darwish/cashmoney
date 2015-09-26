@@ -11,10 +11,23 @@
                     "reference": "origin/master"
                 }
             }
+        },
+        {
+            "type": "package",
+            "package": {
+                "name": "pleslie/phpaggcat",
+                "version": "dev-master",
+                "source": {
+                    "url": "https://github.com/pleslie/phpaggcat",
+                    "type": "git",
+                    "reference": "origin/master"
+                }
+            }
         }
     ],
     "require": {
-        "mastercard/mastercard-api-php": "dev-master"
+        "mastercard/mastercard-api-php": "dev-master",
+        "pleslie/phpaggcat": "dev-master"
     },
     "autoload": {
         "psr-4": {"CashMoney\\": "classes/"}

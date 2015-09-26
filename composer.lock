@@ -1,11 +1,10 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "f228114c31dc7a483441fda366eb7b41",
-    "content-hash": "bbb1842439326137f5d63e0fb443a106",
+    "hash": "ba866ca3266c27135546e89dfeda3b69",
     "packages": [
         {
             "name": "mastercard/mastercard-api-php",
@@ -16,17 +15,28 @@
                 "reference": "origin/master"
             },
             "type": "library",
-            "time": "2015-08-20 14:22:48"
+            "time": "2015-09-26 17:52:00"
+        },
+        {
+            "name": "pleslie/phpaggcat",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/pleslie/phpaggcat",
+                "reference": "origin/master"
+            },
+            "type": "library",
+            "time": "2013-06-05 19:21:27"
         }
     ],
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "mastercard/mastercard-api-php": 20
+        "mastercard/mastercard-api-php": 20,
+        "pleslie/phpaggcat": 20
     },
     "prefer-stable": false,
-    "prefer-lowest": false,
     "platform": [],
     "platform-dev": []
 }
