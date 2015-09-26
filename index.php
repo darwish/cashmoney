@@ -17,7 +17,11 @@ switch ($requestPage) {
 	case "new-expenses":
 		$template = "$requestPage.php";
 		break;
-
+	
+	case "trip-details":
+		$template = "trip-details.php";
+		break;
+		
 	default:
 		$template = "404.html";
 		break;
