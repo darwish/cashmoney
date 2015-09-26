@@ -13,6 +13,11 @@
         <link rel="stylesheet" href="css/normalize.css">
         <link rel="stylesheet" href="css/main.css">
         <script src="js/vendor/modernizr-2.8.3.min.js"></script>
+		
+		<!-- Bootstrap -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+
     </head>
     <body>
         <!--[if lt IE 8]>
@@ -20,10 +25,23 @@
         <![endif]-->
 
         <!-- Add your site or application content here -->
-        <p>Hello world! This is HTML5 Boilerplate.</p>
-
+		<div class="container">
+			<div class="row">
+                <div class="col-sm-4">
+                    <h1>CashMoney</h1>
+                    <a href="addtrip">Add a new trip</a>
+                    <div class="list-group past-trips">
+                        <a href="#" class="list-group-item">New Zealand Ski Trip</a>
+                        <a href="#" class="list-group-item">Last week at the pub</a>
+                        <a href="#" class="list-group-item">International Space Station</a>
+                    </div>
+                </div>
+			</div>
+		</div>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
         <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.11.3.min.js"><\/script>')</script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.3/handlebars.js"></script>
         <script src="js/plugins.js"></script>
         <script src="js/main.js"></script>
 
