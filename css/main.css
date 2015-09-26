@@ -111,9 +111,13 @@ textarea {
     float: right;
 }
 
+.lent {
+    color: #3c763d;
+}
 
-
-
+.borrowed {
+    color: #a94442;
+}
 
 
 
