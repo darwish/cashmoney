@@ -15,3 +15,7 @@ function renderTemplate(id, data)
 	var template = renderTemplate.cache[id];
 	return template(data);
 }
+
+
+
+
