@@ -27,6 +27,10 @@ class Data {
 		file_put_contents($this->dataFile, $serializedData);
 	}
 
+	public function getData() {
+		return $this->data;
+	}
+
 	public function getExpenses() {
 		return isset($this->data['expenses']) ? $this->data['expenses'] : [];
 	}
@@ -46,6 +50,36 @@ class Data {
 	public function removeExpense(Model\Expense $expense) {
 		$this->data['expenses'] = array_values(array_filter($this->data['expenses'], function($e) use($expense) {
 			return $e !== $expense;
+		}));
+		$this->save();
+	}
+
+	public function getUsers() {
+		return isset($this->data['users']) ? $this->data['users'] : [];
+	}
+
+	public function getUsersByID(array $userIDs) {
+		$foundUsers = array_filter($this->getUsers(), function($user) use($userIDs) {
+			return in_array($user->getID(), $userIDs);
+		});
+		return array_values($foundUsers);
+	}
+
+	public function getUserByID($userID) {
+		$foundUsers = array_filter($this->getUsers(), function($user) use($userID) {
+			return $user->getID() == $userID;
+		});
+		return array_values($foundUsers)[0];
+	}
+
+	public function addUser(Model\User $user) {
+		$this->data['users'][] = $user;
+		$this->save();
+	}
+
+	public function removeUser(Model\User $user) {
+		$this->data['users'] = array_values(array_filter($this->data['users'], function($e) use($user) {
+			return $e !== $user;
 		}));
 		$this->save();
 	}

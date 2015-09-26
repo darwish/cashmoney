@@ -24,7 +24,7 @@
 
 					<td>
 						<div class="btn-group">
-							<button class="btn btn-default js-add-expense" data-expense-id="{{id}}">
+							<button class="btn btn-default js-show-users" data-expense-id="{{id}}">
 								<i class="glyphicon glyphicon-ok text-success" title="Add expense to this trip"></i>
 							</button>
 
@@ -34,15 +34,29 @@
 						</div>
 					</td>
 				</tr>
+				<tr class="share hidden"></tr>
 			{{/each}}
 		</table>
+	</div>
+<?= '</script>' ?>
+
+<?= '<script type="handlerbars-template" id="share-expense-template">' ?>
+	<td colspan="4">
+		<input type="hidden" name="id" value="{{expenseID}}">
+		{{#each users}}
+			<label>
+				<input type="checkbox" name="user[]" value="{{id}}" checked> {{name}}
+			</label>
+		{{/each}}
+		<button class="btn btn-primary js-add-expense">Share</button>
 	</div>
 <?= '</script>' ?>
 
 <script>
 	$(function() {
 		<?php $data = new CashMoney\Data\Data(); ?>
-		var expenses = <?= json_encode($data->getExpenses()) ?>;
+		var expenses = <?= json_encode($data->getExpenses()); ?>;
+		var users = <?= json_encode($data->getUsers()); ?>;
 
 		// Process data for rendering
 		for (var i = 0; i < expenses.length; i++) {
@@ -57,7 +71,33 @@
 
 		$('#expenses-container').html(renderTemplate('expense-template', expenseData));
 
+		$('#expenses-container').on('click', '.js-show-users', function() {
+			var button = $(this);
+			var expenseID = button.data('expense-id');
+			var row = button.closest('tr');
+			var shareRow = row.next('tr.share');
+
+			var data = {
+				expenseID: expenseID,
+				users: users
+			};
+
+			shareRow.html(renderTemplate('share-expense-template', data)).removeClass('hidden');
+		});
+
 		$('#expenses-container').on('click', '.js-add-expense', function() {
+			var button = $(this);
+			var cell = button.closest('td');
+
+			$.post("process-expense.php?action=add", cell.find(':input').serialize())
+				.done(function() {
+					alert("Added!");
+					console.log(arguments);
+				})
+				.fail(function() {
+					alert("Something went wrong!");
+					console.error(arguments);
+				});
 		});
 
 		$('#expenses-container').on('click', '.js-remove-expense', function() {
@@ -65,7 +105,7 @@
 			var row = button.closest('tr');
 			var expenseID = button.data('expense-id');
 
-			$.get("process-expense.php?id=" + expenseID + "&action=remove")
+			$.post("process-expense.php?action=remove", {id: expenseID })
 				.done(function() {
 					row.remove();
 				})

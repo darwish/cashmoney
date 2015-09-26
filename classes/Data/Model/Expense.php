@@ -9,7 +9,7 @@ class Expense implements \JsonSerializable {
 	private $amount;
 
 	private $paidBy;
-	private $usedBy;
+	private $usedBy = [];
 
 	public function jsonSerialize() {
 		return [
@@ -45,14 +45,19 @@ class Expense implements \JsonSerializable {
 	public function getPaidBy() {
 		return $this->paidBy;
 	}
-	public function setPaidBy($paidBy) {
+	public function setPaidBy(User $paidBy) {
 		$this->paidBy = $paidBy;
 	}
 
 	public function getUsedBy() {
 		return $this->usedBy;
 	}
-	public function setUsedBy($usedBy) {
+	public function setUsedBy(array $usedBy) {
+		foreach ($usedBy as $_usedBy) {
+			if (!($_usedBy instanceof User)) {
+				throw new \InvalidArgumentException("setUsedBy expects an array of CashMoney\Data\Model\Users");
+			}
+		}
 		$this->usedBy = $usedBy;
 	}
 }
