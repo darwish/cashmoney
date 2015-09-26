@@ -1,0 +1,22 @@
+{
+    "repositories": [
+        {
+            "type": "package",
+            "package": {
+                "name": "mastercard/mastercard-api-php",
+                "version": "dev-master",
+                "source": {
+                    "url": "https://github.com/mastercard/mastercard-api-php",
+                    "type": "git",
+                    "reference": "origin/master"
+                }
+            }
+        }
+    ],
+    "require": {
+        "mastercard/mastercard-api-php": "dev-master"
+    },
+    "autoload": {
+        "psr-4": {"CashMoney\\": "classes/"}
+    }
+}
