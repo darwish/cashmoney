@@ -6,6 +6,10 @@ $things = [
 	'Beef', 'Beer', 'Mustard', 'Tents', 'Ski Tickets', 'Insurance', 'Gas',
 ];
 
+$opts = getopt("p:d:");
+$port = isset($opts['p']) && $opts['p'] ? $opts['p'] : 80;
+$root = isset($opts['d']) && $opts['d'] ? $opts['d'] : '';
+	
 for ($i = 0; $i < 5; $i++) {
 	$data = [
 		'name' => $things[mt_rand(0, count($things) - 1)],
@@ -13,7 +17,7 @@ for ($i = 0; $i < 5; $i++) {
 	];
 
 	$client = new GuzzleHttp\Client();
-	$res = $client->request('POST', 'http://localhost:6789/import-expense.php', ['form_params' => $data]);
+	$res = $client->request('POST', "http://localhost:{$port}/{$root}import-expense.php", ['form_params' => $data]);
 
 	echo $res->getStatusCode() . "\n";
 	// "200"
