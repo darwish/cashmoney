@@ -1,3 +1,5 @@
+<?php require 'header.php'; ?>
+
 <div class="row">
 	<div class="col-sm-4">
 		<h1 class="title">CashMoney</h1><img class="piggybank-icon pull-right" src="img/piggybank.png"/>
@@ -67,3 +69,5 @@
 		});
 	})
 </script>
+
+<?php require 'footer.php'; ?>
