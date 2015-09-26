@@ -28,7 +28,8 @@
     "require": {
         "darwish/mastercard-api-php": "dev-master",
         "pleslie/phpaggcat": "dev-master",
-        "filp/whoops": "^1.1"
+        "filp/whoops": "^1.1",
+        "guzzlehttp/guzzle": "~6.0"
     },
     "autoload": {
         "psr-4": {"CashMoney\\": "classes/"}
