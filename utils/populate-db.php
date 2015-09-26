@@ -36,7 +36,7 @@ if ($command === 'all' || $command === 'users') {
 
 		try {
 			$client = new GuzzleHttp\Client();
-			$res = $client->request('POST', 'http://localhost:6789/import-user.php', ['form_params' => $data]);
+			$res = $client->request('POST', 'http://localhost:{$port}/{$root}import-user.php', ['form_params' => $data]);
 
 			echo $res->getStatusCode() . "\n";
 			echo $res->getBody() . "\n";
