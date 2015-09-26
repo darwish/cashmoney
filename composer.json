@@ -23,11 +23,26 @@
                     "reference": "origin/master"
                 }
             }
+        },
+        {
+            "type": "package",
+            "package": {
+                "name": "jrconlin/oauthsimple",
+                "version": "dev-master",
+                "source": {
+                    "url": "https://github.com/jrconlin/oauthsimple",
+                    "type": "git",
+                    "reference": "origin/master"
+                }
+            }
         }
     ],
     "require": {
         "darwish/mastercard-api-php": "dev-master",
         "pleslie/phpaggcat": "dev-master",
+        "filp/whoops": "^1.1",
+        "jrconlin/oauthsimple": "dev-master",
+        "rmccue/requests": "^1.6",
         "filp/whoops": "^1.1",
         "guzzlehttp/guzzle": "~6.0"
     },

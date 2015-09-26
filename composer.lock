@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "b618035b5da4ffbf30f20c3e61ccfd34",
-    "content-hash": "673c8a8aee25de9185d03c0ce8a8d90f",
+    "hash": "043abd4eb5ddadfa96803772fdefcbd1",
+    "content-hash": "45b1625b0b7def1ac49c15e74bebee88",
     "packages": [
         {
             "name": "darwish/mastercard-api-php",
@@ -248,6 +248,17 @@
             "time": "2015-08-15 19:32:36"
         },
         {
+            "name": "jrconlin/oauthsimple",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/jrconlin/oauthsimple",
+                "reference": "origin/master"
+            },
+            "type": "library",
+            "time": "2015-08-02 02:00:58"
+        },
+        {
             "name": "pleslie/phpaggcat",
             "version": "dev-master",
             "source": {
@@ -306,6 +317,55 @@
                 "response"
             ],
             "time": "2015-05-04 20:22:00"
+        },
+        {
+            "name": "rmccue/requests",
+            "version": "v1.6.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/rmccue/Requests.git",
+                "reference": "6aac485666c2955077d77b796bbdd25f0013a4ea"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/rmccue/Requests/zipball/6aac485666c2955077d77b796bbdd25f0013a4ea",
+                "reference": "6aac485666c2955077d77b796bbdd25f0013a4ea",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.2"
+            },
+            "require-dev": {
+                "satooshi/php-coveralls": "dev-master"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Requests": "library/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "ISC"
+            ],
+            "authors": [
+                {
+                    "name": "Ryan McCue",
+                    "homepage": "http://ryanmccue.info"
+                }
+            ],
+            "description": "A HTTP library written in PHP, for human beings.",
+            "homepage": "http://github.com/rmccue/Requests",
+            "keywords": [
+                "curl",
+                "fsockopen",
+                "http",
+                "idna",
+                "ipv6",
+                "iri",
+                "sockets"
+            ],
+            "time": "2014-05-18 04:59:02"
         }
     ],
     "packages-dev": [],
@@ -313,7 +373,8 @@
     "minimum-stability": "stable",
     "stability-flags": {
         "darwish/mastercard-api-php": 20,
-        "pleslie/phpaggcat": 20
+        "pleslie/phpaggcat": 20,
+        "jrconlin/oauthsimple": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
