@@ -4,6 +4,8 @@ namespace CashMoney\Data\Model;
 
 class Trip implements \JsonSerializable {
 
+	private $name;
+	private $id;
 	private $users;
 	private $expenses;
 	private $payments;

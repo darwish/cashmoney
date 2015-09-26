@@ -23,11 +23,11 @@
 		Handlebars.registerPartial('userDebtItem', $('#user-debt-item-template').html());
 		
 		var fakeDebtData = {
-			you: { id: 1, name: 'You', lentOrBorrowed: 'lent', amount: 375.30 },
+			you: { id: 1, name: 'You', lentOrBorrowed: 'lent', amount: '$375.30' },
 			others: [
-				{ id: 2, name: 'Brian', lentOrBorrowed: 'borrowed', amount: 200 },
-				{ id: 3, name: 'Sam', lentOrBorrowed: 'borrowed', amount: 250 },
-				{ id: 4, name: 'Erica', lentOrBorrowed: 'lent', amount: 74.70 },
+				{ id: 2, name: 'Brian', lentOrBorrowed: 'borrowed', amount: '$200' },
+				{ id: 3, name: 'Sam', lentOrBorrowed: 'borrowed', amount: '$250' },
+				{ id: 4, name: 'Erica', lentOrBorrowed: 'lent', amount: '$74.70' },
 			]
 		};
 		
