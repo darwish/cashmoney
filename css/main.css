@@ -95,14 +95,21 @@ textarea {
    Author's custom styles
    ========================================================================== */
 
-.add-trip {
-    
+.past-trips input {
+    width: 100%;
 }
 
+.past-trips .glyphicon-remove:hover {
+    color: #a94442;
+}
 
+.title {
+    display: inline-block;
+}
 
-
-
+.piggybank-icon {
+    float: right;
+}
 
 
 
