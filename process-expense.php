@@ -26,6 +26,8 @@ switch ($action) {
 
 		$users = $data->getUsersByID($userIDs);
 		$expense->setUsedBy($users);
+		$expense->setIsPending(false);
+
 		$data->save();
 		break;
 

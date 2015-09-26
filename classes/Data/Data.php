@@ -35,11 +35,17 @@ class Data {
 		return isset($this->data['expenses']) ? $this->data['expenses'] : [];
 	}
 
+	public function getPendingExpenses() {
+		return array_values(array_filter($this->getExpenses(), function($e) {
+			return $e->getIsPending();
+		}));
+	}
+
 	public function getExpenseByID($expenseID) {
-		$foundExpenses = array_filter($this->getExpenses(), function($expense) use($expenseID) {
+		$foundExpenses = array_values(array_filter($this->getExpenses(), function($expense) use($expenseID) {
 			return $expense->getID() == $expenseID;
-		});
-		return array_values($foundExpenses)[0];
+		}));
+		return isset($foundExpenses[0]) ? $foundExpenses[0] : null;
 	}
 
 	public function addExpense(Model\Expense $expense) {
@@ -66,10 +72,10 @@ class Data {
 	}
 
 	public function getUserByID($userID) {
-		$foundUsers = array_filter($this->getUsers(), function($user) use($userID) {
+		$foundUsers = array_values(array_filter($this->getUsers(), function($user) use($userID) {
 			return $user->getID() == $userID;
-		});
-		return array_values($foundUsers)[0];
+		}));
+		return isset($foundUsers[0]) ? $foundUsers[0] : null;
 	}
 
 	public function addUser(Model\User $user) {

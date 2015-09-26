@@ -5,7 +5,9 @@ require __DIR__ . '/bootstrap.php';
 $id = isset($_POST['id']) ? (int)$_POST['id'] : null;
 $name = isset($_POST['name']) ? $_POST['name'] : null;
 $amount = isset($_POST['amount']) ? (float)$_POST['amount'] : null;
-$paidBy = isset($_POST['paidBy']) ? $_POST['paidBy'] : null;
+
+$auth = new CashMoney\Auth;
+$paidBy = $auth->getCurrentUser();
 
 if (!$id) {
 	$id = mt_rand(1, PHP_INT_MAX);
@@ -35,6 +37,7 @@ $expense = new CashMoney\Data\Model\Expense();
 $expense->setID($id);
 $expense->setName($name);
 $expense->setAmount($amount);
+$expense->setIsPending(true);
 $expense->setPaidBy($paidBy);
 
 $data->addExpense($expense);

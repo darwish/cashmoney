@@ -55,7 +55,7 @@
 <script>
 	$(function() {
 		<?php $data = new CashMoney\Data\Data(); ?>
-		var expenses = <?= json_encode($data->getExpenses()); ?>;
+		var expenses = <?= json_encode($data->getPendingExpenses()); ?>;
 		var users = <?= json_encode($data->getUsers()); ?>;
 
 		// Process data for rendering

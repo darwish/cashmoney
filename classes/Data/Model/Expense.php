@@ -7,17 +7,19 @@ class Expense implements \JsonSerializable {
 	private $id;
 	private $name;
 	private $amount;
+	private $isPending;
 
 	private $paidBy;
 	private $usedBy = [];
 
 	public function jsonSerialize() {
 		return [
-			'id'     => $this->id,
-			'name'   => $this->name,
-			'amount' => $this->amount,
-			'paidBy' => $this->paidBy,
-			'usedBy' => $this->usedBy,
+			'id'        => $this->id,
+			'name'      => $this->name,
+			'amount'    => $this->amount,
+			'isPending' => $this->isPending,
+			'paidBy'    => $this->paidBy,
+			'usedBy'    => $this->usedBy,
 		];
 	}
 
@@ -40,6 +42,13 @@ class Expense implements \JsonSerializable {
 	}
 	public function setAmount($amount) {
 		$this->amount = $amount;
+	}
+
+	public function getIsPending() {
+		return $this->isPending;
+	}
+	public function setIsPending($isPending) {
+		$this->isPending = $isPending;
 	}
 
 	public function getPaidBy() {
