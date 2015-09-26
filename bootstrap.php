@@ -11,6 +11,9 @@ function pr($a) {
 }
 
 // Pretty errors
+$isCLI = !isset($_SERVER['REQUEST_URI']);
+
 $whoops = new \Whoops\Run;
-$whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler);
+$handler = $isCLI ? new \Whoops\Handler\PlainTextHandler : new \Whoops\Handler\PrettyPageHandler;
+$whoops->pushHandler($handler);
 $whoops->register();
