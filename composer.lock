@@ -1,21 +1,80 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "ba866ca3266c27135546e89dfeda3b69",
+    "hash": "cdbeb1db26379c174bed9f3ca70ec006",
+    "content-hash": "f225fc77aaa79ed5a9de01dfb98e5740",
     "packages": [
         {
-            "name": "mastercard/mastercard-api-php",
+            "name": "darwish/mastercard-api-php",
             "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/mastercard/mastercard-api-php",
+                "url": "https://github.com/darwish/mastercard-api-php",
                 "reference": "origin/master"
             },
             "type": "library",
-            "time": "2015-09-26 17:52:00"
+            "time": "2015-08-20 14:22:48"
+        },
+        {
+            "name": "filp/whoops",
+            "version": "1.1.7",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/filp/whoops.git",
+                "reference": "72538eeb70bbfb11964412a3d098d109efd012f7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/filp/whoops/zipball/72538eeb70bbfb11964412a3d098d109efd012f7",
+                "reference": "72538eeb70bbfb11964412a3d098d109efd012f7",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "0.9.*"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.2-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Whoops": "src/"
+                },
+                "classmap": [
+                    "src/deprecated"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Filipe Dobreira",
+                    "homepage": "https://github.com/filp",
+                    "role": "Developer"
+                }
+            ],
+            "description": "php error handling for cool kids",
+            "homepage": "https://github.com/filp/whoops",
+            "keywords": [
+                "error",
+                "exception",
+                "handling",
+                "library",
+                "silex-provider",
+                "whoops",
+                "zf2"
+            ],
+            "time": "2015-06-29 05:42:04"
         },
         {
             "name": "pleslie/phpaggcat",
@@ -33,10 +92,11 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "mastercard/mastercard-api-php": 20,
+        "darwish/mastercard-api-php": 20,
         "pleslie/phpaggcat": 20
     },
     "prefer-stable": false,
+    "prefer-lowest": false,
     "platform": [],
     "platform-dev": []
 }

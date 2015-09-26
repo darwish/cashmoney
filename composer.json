@@ -3,10 +3,10 @@
         {
             "type": "package",
             "package": {
-                "name": "mastercard/mastercard-api-php",
+                "name": "darwish/mastercard-api-php",
                 "version": "dev-master",
                 "source": {
-                    "url": "https://github.com/mastercard/mastercard-api-php",
+                    "url": "https://github.com/darwish/mastercard-api-php",
                     "type": "git",
                     "reference": "origin/master"
                 }
@@ -26,8 +26,9 @@
         }
     ],
     "require": {
-        "mastercard/mastercard-api-php": "dev-master",
-        "pleslie/phpaggcat": "dev-master"
+        "darwish/mastercard-api-php": "dev-master",
+        "pleslie/phpaggcat": "dev-master",
+        "filp/whoops": "^1.1"
     },
     "autoload": {
         "psr-4": {"CashMoney\\": "classes/"}
