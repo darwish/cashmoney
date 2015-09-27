@@ -4,7 +4,7 @@
 
 	$tripID = isset($_GET['tripID']) ? $_GET['tripID'] : null;
 
-	// $trip = $data->getTripByID($tripID);
+	$trip = $data->getTrip($tripID);
 	$expenses = $data->getExpenses();
 
 	$payments = $data->splitExpenses($expenses);
