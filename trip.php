@@ -11,7 +11,7 @@
 ?>
 <?php require 'header.php'; ?>
 
-<div class="row doodlite" id="trip-expenses-container">
+<div class="row" id="trip-expenses-container">
 </div>
 
 <?= '<script type="handlerbars-template" id="trip-expense-template">' ?>
@@ -48,8 +48,12 @@
 		<h2>Pay Me Back</h2>
 		<ul class="list-group payments">
 			{{#each payments}}
-				<li class="list-group-item">
+				<li class="list-group-item clearfix">
 					<b>{{debtor.name}}</b> owes <b>{{formattedAmount}}</b> to <b>{{lender.name}}</b>
+
+					<span class="pull-right">
+						<button class="btn btn-primary do-payment" data-debtor-id="{{debtor.id}}" data-lender-id="{{lender.id}}">Pay {{lender.name}}</button>
+					</span>
 				</li>
 			{{/each}}
 		</table>
@@ -124,7 +128,23 @@
 		$('#trip-expenses-container').html(renderTemplate('trip-expense-by-user-template', expenseData));
 		$('#trip-expenses-container').append(renderTemplate('trip-payment-template', paymentData));
 		$('#trip-expenses-container').append(renderTemplate('trip-expense-template', expenseData));
-	})
+
+		$('#trip-expenses-container').on('click', '.do-payment', function() {
+			var button = $(this);
+			var debtorID = button.data('debtor-id');
+			var lenderID = button.data('lender-id');
+
+			$.post('do-payment.php', { tripID: null, debtorID: debtorID, lenderID: lenderID })
+				.done(function() {
+					alert("Paid!");
+					console.log(arguments);
+				})
+				.fail(function() {
+					alert("Something went wrong!");
+					console.error(arguments);
+				});
+		});
+	});
 </script>
 
 <iframe width="800" height="600" frameborder="1" style="border:0" src="https://www.google.com/maps/embed/v1/search?key=AIzaSyCsA7P1BKADJMcmSgi9z31iY3dIIOGewYs&q={{location}}" allowfullscreen></iframe>
