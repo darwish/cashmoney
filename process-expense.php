@@ -6,7 +6,7 @@ $expenseID = isset($_POST['expenseID']) ? (int)$_POST['expenseID'] : null;
 $tripID = isset($_POST['tripID']) ? (int)$_POST['tripID'] : null;
 $action = isset($_GET['action']) ? $_GET['action'] : null;
 
-if (!$expenseID || !$tripID) {
+if (!$expenseID || (!$tripID && $action == 'add')) {
 	header("HTTP/1.1 400 Bad Request");
 	echo "Must include expenseID and tripID";
 	die;
