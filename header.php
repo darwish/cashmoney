@@ -37,29 +37,34 @@
       </button>
       <a class="navbar-brand" href="your-trips.php">Home</a>
     </div>
-
-	<?php
-	$tripID = isset($_GET['tripID']) ? $_GET['tripID'] : null;
-	//$trip = $data->getTripByID($tripID);
-	?>
-	
-	
-	
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 	<ul class="nav navbar-nav">
-	<li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
+    <?php $trips = (new CashMoney\Data\Data())->getTrips(); ?>
+    <?php if (isset($trips) && count($trips) > 0 ): ?>
+	      <li class="dropdown">
+        <?php if (isset($trip)): ?>
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?= $trip->getName(); ?> <span class="caret"></span></a>
+        <?php else: ?>
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">My Trips <span class="caret"></span></a>
+        <?php endif; ?>
+
           <ul class="dropdown-menu">
-            <li><a href="#">Action</a></li>
-            <li><a href="#">Another action</a></li>
-            <li><a href="#">Something else here</a></li>
-            <li role="separator" class="divider"></li>
-            <li><a href="#">Separated link</a></li>
-            <li role="separator" class="divider"></li>
-            <li><a href="#">One more separated link</a></li>
+            <?php foreach ($trips as $trip): ?>
+            <li><a href="/trip.php?id=<?=$trip->getID(); ?>"><?= $trip->getName(); ?></a></li>
+            <?php endforeach; ?>
           </ul>
        </li>
+     <?php endif; ?>
+     <?php $pendingExpenses = (new CashMoney\Data\Data())->getPendingExpenses(); ?>
+     <p class="navbar-text">
+       <a class="navbar-btn" href="new-expenses.php">
+         New Expenses
+       </a>
+       <?php if (count($pendingExpenses) > 0): ?>
+        <span class="label label-danger" id="global-new-expenses-count"><?= count($pendingExpenses) ?></span>
+       <?php endif; ?>
+     </p>
 	</ul>
 	
       <form class="navbar-form navbar-right" role="search">

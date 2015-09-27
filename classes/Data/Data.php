@@ -129,6 +129,21 @@ class Data {
 		return $payments;
 	}
 
+	public function getPayment($tripID, $debtorID, $lenderID) {
+		$trip = $this->getTrip($tripID);
+		$payments = $trip->getPayments();
+
+		foreach ($payments as $payment) {
+			$isCorrectDebtor = $payment->getDebtor()->getID() == $debtorID;
+			$isCorrectLender = $payment->getLender()->getID() == $lenderID;
+			if ($isCorrectDebtor && $isCorrectLender) {
+				return $payment;
+			}
+		}
+
+		throw new \Exception("Could not find payment for trip '$trip' defined by debtor '$debtor' and lender '$lender'");
+	}
+
 	public function getUsers() {
 		return isset($this->data['users']) ? $this->data['users'] : [];
 	}

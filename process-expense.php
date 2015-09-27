@@ -2,17 +2,19 @@
 
 require __DIR__ . '/bootstrap.php';
 
-$expenseID = isset($_POST['id']) ? (int)$_POST['id'] : null;
+$expenseID = isset($_POST['expenseID']) ? (int)$_POST['expenseID'] : null;
+$tripID = isset($_POST['tripID']) ? (int)$_POST['tripID'] : null;
 $action = isset($_GET['action']) ? $_GET['action'] : null;
 
-if (!$expenseID) {
+if (!$expenseID || (!$tripID && $action == 'add')) {
 	header("HTTP/1.1 400 Bad Request");
-	echo "Invalid expenseID: $expenseID";
+	echo "Must include expenseID and tripID";
 	die;
 }
 
 $data = new CashMoney\Data\Data();
 
+$trip = $data->getTrip($tripID);
 $expense = $data->getExpenseByID($expenseID);
 
 switch ($action) {
@@ -28,12 +30,19 @@ switch ($action) {
 		$expense->setUsedBy($users);
 		$expense->setIsPending(false);
 
+		$trip->addExpense($expense);
 		$data->save();
-		break;
+
+		header("Content-Type: application/json");
+		echo json_encode($data->getPendingExpenses());
+		die;
 
 	case "remove":
 		$data->removeExpense($expense);
-		break;
+
+		header("Content-Type: application/json");
+		echo json_encode($data->getPendingExpenses());
+		die;
 
 	default:
 		header("HTTP/1.1 400 Bad Request");
