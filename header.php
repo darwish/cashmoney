@@ -62,7 +62,7 @@
      <?php $pendingExpenses = (new CashMoney\Data\Data())->getPendingExpenses(); ?>
      <p class="navbar-text">
        <a class="navbar-btn" href="new-expenses.php">
-         New Expenses
+         Pending Expenses
        </a>
        <?php if (count($pendingExpenses) > 0): ?>
         <span class="label label-danger" id="global-new-expenses-count"><?= count($pendingExpenses) ?></span>

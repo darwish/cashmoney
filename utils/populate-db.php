@@ -144,7 +144,7 @@ if ($command === 'all' || $command === 'trips') {
 
 		try {
 			$client = new GuzzleHttp\Client();
-			$res = $client->request('GET', "http://localhost:{$port}/{$root}process-trip.php?action=add&name={$trip}");
+			$res = $client->request('GET', "http://localhost:{$port}/{$root}process-trip.php?action=add-special&name={$trip}");
 			echo $res->getStatusCode() . "\n";
 			echo $res->getBody() . "\n";
 		} catch (Exception $e) {

@@ -1,5 +1,5 @@
 <?php require __DIR__ . '/bootstrap.php'; ?>
-<?php $pageTitle = "New Expenses"; ?>
+<?php $pageTitle = "Pending Expenses"; ?>
 <?php require 'header.php'; ?>
 
 <div class="row" id="expenses-container">
@@ -8,7 +8,7 @@
 <?= '<script type="handlerbars-template" id="expense-template">' ?>
 	<div class="col-sm-10">
 		<div class="panel panel-default">
-			<div class="panel-heading"><h1>New Expenses</h1></div>
+			<div class="panel-heading"><h1>Pending Expenses</h1></div>
 			<div class="panel-body">
 				<p>You have {{expenseCount}} new {{expenseInflected}} to file.</p>
 
