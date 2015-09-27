@@ -40,7 +40,7 @@ class User implements \JsonSerializable {
 	}
 
 	public function getPhoto() {
-		return photofile;
+		return $this->photofile;
 	}
 
 	public function getName() {
@@ -69,5 +69,9 @@ class User implements \JsonSerializable {
 	}
 	public function setCard(\FundingCard $card) {
 		$this->card = $card;
+	}
+
+	public function getMaskedAccountNumber() {
+		return str_repeat('*', strlen($this->getCard()->getAccountNumber()) - 4) . substr($this->getCard()->getAccountNumber(), -4);
 	}
 }

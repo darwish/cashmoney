@@ -4,7 +4,7 @@
 <div class="row">
 	<div class="col-sm-8">
 		<div class="panel panel-default">
-			<div class="panel-heading"><h1 class="title">CashMoney</h1><img class="piggybank-icon pull-right" src="img/piggybank.png"/></div>
+			<div class="panel-heading"><h1 class="title">FareShare</h1><img class="piggybank-icon pull-right" src="img/piggybank.png"/></div>
 			<div class="panel-body">
 		
 		<p><a class="add-trip" href="#">Add a new trip</a></p>
