@@ -31,13 +31,18 @@ switch ($action) {
 		$expense->setIsPending(false);
 
 		$trip->addExpense($expense);
-
 		$data->save();
-		break;
+
+		header("Content-Type: application/json");
+		echo json_encode($data->getPendingExpenses());
+		die;
 
 	case "remove":
 		$data->removeExpense($expense);
-		break;
+
+		header("Content-Type: application/json");
+		echo json_encode($data->getPendingExpenses());
+		die;
 
 	default:
 		header("HTTP/1.1 400 Bad Request");

@@ -6,53 +6,53 @@
 
 <?= '<script type="handlerbars-template" id="expense-template">' ?>
 	<div class="col-sm-10">
-	<div class="panel panel-default">
-		<div class="panel-heading"><h1>New Expenses</h1></div>
-		<div class="panel-body">
-		<p>You have {{expenseCount}} new {{expenseInflected}} to file.</p>
+		<div class="panel panel-default">
+			<div class="panel-heading"><h1>New Expenses</h1></div>
+			<div class="panel-body">
+				<p>You have {{expenseCount}} new {{expenseInflected}} to file.</p>
 
-		<table class="table table-striped table-hover expenses">
-			<tr>
-				<th class="col-sm-4">Expense</th>
-				<th class="col-sm-2">Amount</th>
-				<th class="col-sm-2">Action</th>
-				<th class="col-sm-4">Trip</th>
-			</tr>
+				<table class="table table-striped table-hover expenses">
+					<tr>
+						<th class="col-sm-4">Expense</th>
+						<th class="col-sm-2">Amount</th>
+						<th class="col-sm-2">Action</th>
+						<th class="col-sm-4">Trip</th>
+					</tr>
 
-			{{#each expenses}}
-				<tr>
-					<td><b>{{name}}</b></td>
+					{{#each expenses}}
+						<tr>
+							<td><b>{{name}}</b></td>
 
-					<td>{{formattedAmount}}</td>
+							<td>{{formattedAmount}}</td>
 
-					<td>
-						<div class="btn-group">
-							<button class="btn btn-default js-show-users" data-expense-id="{{id}}">
-								<i class="glyphicon glyphicon-ok text-success" title="Add expense to this trip"></i>
-							</button>
+							<td>
+								<div class="btn-group">
+									<button class="btn btn-default js-show-users" data-expense-id="{{id}}">
+										<i class="glyphicon glyphicon-ok text-success" title="Add expense to this trip"></i>
+									</button>
 
-							<button class="btn btn-primary js-add-expense hidden" data-expense-id="{{id}}">
-								Share
-							</button>
+									<button class="btn btn-primary js-add-expense hidden" data-expense-id="{{id}}">
+										Share
+									</button>
 
-							<button class="btn btn-default js-remove-expense" data-expense-id="{{id}}">
-								<i class="glyphicon glyphicon-remove text-danger" title="Remove expense from this trip"></i>
-							</button>
-						</div>
-					</td>
+									<button class="btn btn-default js-remove-expense" data-expense-id="{{id}}">
+										<i class="glyphicon glyphicon-remove text-danger" title="Remove expense from this trip"></i>
+									</button>
+								</div>
+							</td>
 
-					<td>
-						<select name="tripID" class="form-control hidden">
-							{{#each ../trips}}
-								<option value="{{id}}">{{name}}</option>
-							{{/each}}
-						</select>
-					</td>
-				</tr>
-				<tr class="share hidden"></tr>
-			{{/each}}
-		</table>
-		</div>
+							<td>
+								<select name="tripID" class="form-control hidden">
+									{{#each ../trips}}
+										<option value="{{id}}">{{name}}</option>
+									{{/each}}
+								</select>
+							</td>
+						</tr>
+						<tr class="share hidden"></tr>
+					{{/each}}
+				</table>
+			</div>
 		</div>
 	</div>
 <?= '</script>' ?>
@@ -82,20 +82,9 @@
 		var users = <?= json_encode($data->getUsers()); ?>;
 		var trips = <?= json_encode($data->getTrips()); ?>;
 
-		// Process data for rendering
-		for (var i = 0; i < expenses.length; i++) {
-			expenses[i].formattedAmount = formatMoney(expenses[i].amount, 2, '.', ',', true);
-		}
+		render(expenses, users, trips);
 
-		var expenseData = {
-			expenseCount: expenses.length,
-			expenseInflected: expenses.length === 1 ? "expense" : "expenses",
-			expenses: expenses,
-			trips: trips
-		};
-
-		$('#expenses-container').html(renderTemplate('expense-template', expenseData));
-
+		// Event handlers
 		$('#expenses-container').on('click', '.js-show-users', function() {
 			var button = $(this);
 			var expenseID = button.data('expense-id');
@@ -123,9 +112,9 @@
 			var tripsSelect = row.find('[name=tripID]');
 
 			$.post("process-expense.php?action=add", shareRow.find(':input').add(tripsSelect).serialize())
-				.done(function() {
+				.done(function(remainingExpenses) {
 					$.growl({ title: "Added!", message: "Your expense has been shared." });
-					row.add(shareRow).remove();
+					render(remainingExpenses, users, trips);
 					console.log(arguments);
 				})
 				.fail(function() {
@@ -140,14 +129,30 @@
 			var expenseID = button.data('expense-id');
 
 			$.post("process-expense.php?action=remove", { expenseID: expenseID })
-				.done(function() {
-					row.remove();
+				.done(function(remainingExpenses) {
+					render(remainingExpenses, users, trips);
 				})
 				.fail(function() {
 					alert("Something went wrong!");
 					console.error(arguments);
 				});
 		});
+
+		function render(expenses, users, trips) {
+			// Process data for rendering
+			for (var i = 0; i < expenses.length; i++) {
+				expenses[i].formattedAmount = formatMoney(expenses[i].amount, 2, '.', ',', true);
+			}
+
+			var expenseData = {
+				expenseCount: expenses.length,
+				expenseInflected: expenses.length === 1 ? "expense" : "expenses",
+				expenses: expenses,
+				trips: trips
+			};
+
+			$('#expenses-container').html(renderTemplate('expense-template', expenseData));
+		}
 	})
 </script>
 
