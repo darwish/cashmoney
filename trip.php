@@ -55,31 +55,49 @@
 <?= '<script type="handlerbars-template" id="trip-payment-template">' ?>
 	<div class="col-sm-8">
 		<div class="panel panel-default">
-			<div class="panel-heading"><h2>Pay Me Back</h2></div>
-			<div class="panel-body">
-		
-		<ul class="list-group payments">
-			{{#each payments}}
-				<li class="list-group-item clearfix">
-					<b>{{debtor.name}}</b> owes <b>{{formattedAmount}}</b> to <b>{{lender.name}}</b>
+			<div class="panel-heading">
+				<h2>
+					Pay Me Back
 
 					<span class="pull-right">
-						{{#if isPaid}}
+						{{#if isAllPaid}}
 							<button class="btn btn-default" disabled>
 								<img src="img/mastercard.ico">
-								Paid
+								All Paid
 							</button>
 						{{else}}
-							<button class="btn btn-default do-payment" data-debtor-id="{{debtor.id}}" data-lender-id="{{lender.id}}">
+							<button class="btn btn-default do-all-payments">
 								<img src="img/mastercard.ico">
-								<span class="do-payment-text">Pay {{lender.name}}</span>
+								<span class="do-payment-text">Pay All</span>
 							</button>
 						{{/if}}
 					</span>
-				</li>
-			{{/each}}
-		</table>
-		</div>
+				</h2>
+			</div>
+
+			<div class="panel-body">
+				<ul class="list-group payments">
+					{{#each payments}}
+						<li class="list-group-item clearfix">
+							<b>{{debtor.name}}</b> owes <b>{{formattedAmount}}</b> to <b>{{lender.name}}</b>
+
+							<span class="pull-right">
+								{{#if isPaid}}
+									<button class="btn btn-default" disabled>
+										<img src="img/mastercard.ico">
+										Paid
+									</button>
+								{{else}}
+									<button class="btn btn-default do-payment" data-debtor-id="{{debtor.id}}" data-lender-id="{{lender.id}}">
+										<img src="img/mastercard.ico">
+										<span class="do-payment-text">Pay {{lender.name}}</span>
+									</button>
+								{{/if}}
+							</span>
+						</li>
+					{{/each}}
+				</ul>
+			</div>
 		</div>
 	</div>
 <?= '</script>' ?>
@@ -171,6 +189,29 @@
 			$.post('do-payment.php', { tripID: "<?= $trip->getID() ?>", debtorID: debtorID, lenderID: lenderID })
 				.done(function() {
 					buttonText.text('Paid');
+					console.log(arguments);
+				})
+				.fail(function() {
+					button.prop('disabled', false);
+					buttonText.text(originalText);
+
+					alert("Something went wrong!");
+					console.error(arguments);
+				});
+		});
+
+		$('#trip-expenses-container').on('click', '.do-all-payments', function() {
+			var button = $(this);
+			var buttonText = button.find('.do-payment-text');
+
+			var originalText = buttonText.text();
+
+			button.prop('disabled', true);
+			buttonText.text('Processing...');
+
+			$.post('do-payment.php', { tripID: "<?= $trip->getID() ?>" })
+				.done(function() {
+					buttonText.text('All Paid');
 					console.log(arguments);
 				})
 				.fail(function() {
