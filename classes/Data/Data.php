@@ -83,6 +83,44 @@ class Data {
 		$this->save();
 	}
 
+	public function splitExpenses(array $expenses) {
+		$sharedExpenses = array_values(array_filter($expenses, function($e) {
+			return count($e->getUsedBy()) > 0;
+		}));
+
+		$formattedExpenses = array_map(function($e) {
+			$usedByIDs = array_map(function($u) {
+				return $u->getID();
+			}, $e->getUsedBy());
+
+			return [$e->getName(), $e->getAmount(), $e->getPaidBy()->getID(), $usedByIDs];
+		}, $sharedExpenses);
+
+		$formattedExpensesString = json_encode($formattedExpenses);
+
+		if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+			$escapedExpensesString = preg_replace('/"/', '""', $formattedExpensesString);
+		} else {
+			$escapedExpensesString = escapeshellcmd($formattedExpensesString);
+		}
+
+		$cmd = "py splitengine.py \"$escapedExpensesString\" 2>&1";
+		exec($cmd, $output, $return_value);
+
+		$splits = json_decode($output[0], true);
+
+		$payments = [];
+		foreach ($splits as $split) {
+			$debtor = $this->getUserByID($split[0]);
+			$lender = $this->getUserByID($split[1]);
+			$amount = $split[2];
+
+			$payments[] = new Model\Payment($debtor, $lender, $amount);
+		}
+
+		return $payments;
+	}
+
 	public function getUsers() {
 		return isset($this->data['users']) ? $this->data['users'] : [];
 	}

@@ -7,7 +7,7 @@ def solve(string):
     # tallying
     shares = collections.defaultdict(float)
     for description, amount, buyer, beneficiaries in purchases:
-        portion = amount / len(beneficiaries)
+        portion = float(amount) / len(beneficiaries)
         shares[buyer] += amount
         for user in beneficiaries:
             shares[user] -= portion
@@ -28,7 +28,7 @@ def solve(string):
     return json.dumps(transactions_required)
 
 
-if __name__ == '__main__':
+def test():
     purchases = [
         ('Gas', 300, 'Greencorn', ['Greencorn', 'Darwish']),
         ('Booze', 300, 'Darwish', ['Greencorn', 'Darwish', 'Andrew', 'Roderic']),
@@ -42,3 +42,7 @@ if __name__ == '__main__':
 
     output = solve(string)
     print(output)
+
+if __name__ == '__main__':
+    import sys
+    print( solve(sys.argv[1]) )

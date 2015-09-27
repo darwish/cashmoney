@@ -6,6 +6,8 @@
 
 	// $trip = $data->getTripByID($tripID);
 	$expenses = $data->getExpenses();
+
+	$payments = $data->splitExpenses($expenses);
 ?>
 <?php require 'header.php'; ?>
 
@@ -40,11 +42,11 @@
 	<div class="col-sm-8">
 		<h1>Trip Expenses</h1>
 
-		<table class="table table-striped table-bordered table-hover expenses">
+		<table class="table table-bordered table-hover expenses">
 			<tr>
 				<th></th>
 				{{#each users}}
-					<th>{{name}}</th>
+					<th width="100" class="text-center">{{name}}</th>
 				{{/each}}
 			</tr>
 
