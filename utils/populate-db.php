@@ -109,18 +109,23 @@ if ($command === 'all' || $command === 'users') {
 
 if ($command === 'all' || $command === 'expenses') {
 	$things = [
-		'Junk Food', 'Beer', 'Lift Tickets', 'Damage Deposit', 'Gas', 'Parking', 'Beer',
+		['name'=> 'Junk Food', 'amount' => 50.43],
+		['name'=> 'Beer', 'amount' => 50.96],
+		['name'=> 'Beer', 'amount' => 350.18],
+		['name'=> 'Accomodation', 'amount' => 356.27],
+		['name'=> 'Lost Damage Deposit ', 'amount' => 1250],
+		['name'=> 'Lift Tickets', 'amount' => 500],
+		['name'=> 'Website Hosting', 'amount' => 50],
+		['name'=> 'Groceries', 'amount' => 63.49],
+		['name'=> 'Gas', 'amount' => 69.19],
+		['name'=> 'Gas', 'amount' => 89.78],
 	];
 
-	for ($i = 0; $i < 7; $i++) {
-		$data = [
-			'name' => $things[mt_rand(0, count($things) - 1)],
-			'amount' => mt_rand(5, 200),
-		];
+	foreach ($things as $thing) {;
 
 		try {
 			$client = new GuzzleHttp\Client();
-			$res = $client->request('POST', "http://localhost:{$port}/{$root}import-expense.php", ['form_params' => $data]);
+			$res = $client->request('POST', "http://localhost:{$port}/{$root}import-expense.php", ['form_params' => $thing]);
 			echo $res->getStatusCode() . "\n";
 			echo $res->getBody() . "\n";
 		} catch (Exception $e) {
