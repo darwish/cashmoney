@@ -2,8 +2,6 @@
 
 namespace CashMoney;
 
-define('MASTERCARD_DIR', ROOT_DIR . 'vendor/darwish/mastercard-api-php/');
-
 include_once MASTERCARD_DIR . 'common/Environment.php';
 include_once MASTERCARD_DIR . 'services/location/atms/AtmLocationService.php';
 

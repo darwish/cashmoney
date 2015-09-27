@@ -10,7 +10,7 @@ $auth = new CashMoney\Auth;
 $paidBy = $auth->getCurrentUser();
 
 if (!$id) {
-	$id = mt_rand(1, PHP_INT_MAX);
+	$id = mt_rand(1, 1e8);
 }
 
 try {
