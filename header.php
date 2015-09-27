@@ -35,7 +35,10 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="your-trips.php"><img src="/img/logo.png" style="max-height: 35px; margin-top: -7px; display: inline-block; margin-right: 7px;">Home</a>
+      <a class="navbar-brand" href="your-trips.php"><img src="/img/logo.png" style="max-height: 35px; margin-top: -7px; display: inline-block; margin-right: 7px;"><span style="
+    top: -3px;
+    position: relative;
+">Home</span></a>
     </div>
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
