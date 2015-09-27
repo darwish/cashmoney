@@ -291,3 +291,42 @@ textarea {
         page-break-after: avoid;
     }
 }
+
+/* Begin custom styles */
+#expenses-container .expenses label {
+    margin-right: 40px;
+}
+
+.table .expense-shared {
+  vertical-align: middle;
+  font-size:1.5em;
+}
+
+/* Doodlite */
+.doodlite button {
+    border: none;
+    background-color: transparent;
+}
+.doodlite input {
+    width: 100px;
+    border: none;
+}
+.doodlite .inputContainer {
+    display: table-cell;
+    vertical-align: middle;
+}
+.doodlite .row {
+    display: table-row;
+}
+.doodlite .cell {
+    border: 2px solid white;
+    display: table-cell;
+    width: 50px;
+    height: 50px;
+}
+.doodlite .red {
+  background-color: #f7e9e8;
+}
+.doodlite .green {
+  background-color: #e3f1e2;
+}
