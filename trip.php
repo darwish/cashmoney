@@ -82,12 +82,12 @@
 
 					{{#each ../users}}
 						{{#ifContains id ../usedByIDs}}
-							<td class="text-center success expense-shared">
+							<td class="toggleable text-center success expense-shared" data-user-id="{{id}}" data-expense-id="{{../id}}">
 								<i class="glyphicon glyphicon-ok text-success"></i>
-							</td>
 						{{else}}
-							<td></td>
+							<td class="toggleable" data-user-id="{{id}}" data-expense-id="{{../id}}">
 						{{/ifContains}}
+							</td>
 					{{/each}}
 				</tr>
 			{{/each}}
@@ -100,34 +100,66 @@
 		var expenses = <?= json_encode($expenses); ?>;
 		var users = <?= json_encode($data->getUsers()); ?>;
 		var payments = <?= json_encode($payments); ?>;
-		var total = 0;
 
-		// Process data for rendering
-		for (var i = 0; i < expenses.length; i++) {
-			total += expenses[i].amount;
-			expenses[i].formattedAmount = formatMoney(expenses[i].amount, 2, '.', ',', true);
-			expenses[i].usedByIDs = expenses[i].usedBy.map(function(a) { return a.id; });
+		function renderAll(expenses, users, payments) {
+			var total = 0;
+
+			for (var i = 0; i < expenses.length; i++) {
+				total += expenses[i].amount;
+				expenses[i].formattedAmount = formatMoney(expenses[i].amount, 2, '.', ',', true);
+				expenses[i].usedByIDs = expenses[i].usedBy.map(function(a) { return a.id; });
+			}
+
+			for (var i = 0; i < payments.length; i++) {
+				payments[i].formattedAmount = formatMoney(payments[i].amount, 2, '.', ',', true);
+			}
+
+
+			var paymentData = {
+				payments: payments
+			}
+
+			var expenseData = {
+				expenseCount: expenses.length,
+				expenseInflected: expenses.length === 1 ? "expense" : "expenses",
+				formattedTotal: formatMoney(total, 2, '.', ',', true),
+				expenses: expenses,
+				users: users
+			};
+
+			$('#trip-expenses-container').html(renderTemplate('trip-expense-by-user-template', expenseData));
+			$('#trip-expenses-container').append(renderTemplate('trip-payment-template', paymentData));
+			$('#trip-expenses-container').append(renderTemplate('trip-expense-template', expenseData));
+
+			return expenseData
 		}
 
-		for (var i = 0; i < payments.length; i++) {
-			payments[i].formattedAmount = formatMoney(payments[i].amount, 2, '.', ',', true);
-		}
+		/**
+		* have an object referencing the data ~as viewed by the user~
+		* regardless of truth
+		***/
+		var expenseData = renderAll(expenses, users, payments);
 
-		var expenseData = {
-			expenseCount: expenses.length,
-			expenseInflected: expenses.length === 1 ? "expense" : "expenses",
-			formattedTotal: formatMoney(total, 2, '.', ',', true),
-			expenses: expenses,
-			users: users
-		};
+		$('#trip-expenses-container').on('click', '.toggleable', function() {
+			var self = this;
+			expenseData.expenses.map(function(expense) {
+				if(expense.id==self.dataset.expenseId){
+					// the objects in the DOM are not the truth
+					// figure out if user is party to expense item
+					// and send the command that would toggle them
+					var userIds = expense.usedBy.map(function(u){return u.id});
+					var isParty = userIds.indexOf(parseInt(self.dataset.userId))!==-1;
+					var command = isParty ? "remove" : "add";
+					var args = { expenseId: expense.id, debtorID: self.dataset.userId };
 
-		var paymentData = {
-			payments: payments
-		}
-
-		$('#trip-expenses-container').html(renderTemplate('trip-expense-by-user-template', expenseData));
-		$('#trip-expenses-container').append(renderTemplate('trip-payment-template', paymentData));
-		$('#trip-expenses-container').append(renderTemplate('trip-expense-template', expenseData));
+					$.post('update-expenses-shares.php?action='+command, args)
+						.done(function(response) {
+							expenseData = renderAll.apply(this, response);
+						})
+						.fail(function() { alert('fail') })
+				}
+			});
+		})
 
 		$('#trip-expenses-container').on('click', '.do-payment', function() {
 			var button = $(this);
