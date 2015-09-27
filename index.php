@@ -1,4 +1,9 @@
 <?php
+include 'your-trips.php';
+die;
+?>
+
+<?php
 $base = "/"; // This is running at root (not in a subfolder)
 $requestUri = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : null;
 

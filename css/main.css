@@ -99,7 +99,16 @@ textarea {
     width: 100%;
 }
 
-.past-trips .glyphicon-remove:hover {
+.past-trips .remove {
+    height: 42px;
+    margin-top: -10px;
+    padding-top: 14px;
+    width: 42px;
+    padding-left: 10px;
+    margin-right: -18px;
+}
+
+.past-trips .remove:hover {
     color: #a94442;
 }
 
