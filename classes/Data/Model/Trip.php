@@ -50,7 +50,7 @@ class Trip implements \JsonSerializable {
 	}
 
 	public function getPayments() {
-		if ($this->payments === null) {
+		if (empty($this->payments)) {
 			$data = new \CashMoney\Data\Data;
 			$this->payments = $data->splitExpenses($this->getExpenses());
 		}

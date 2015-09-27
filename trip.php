@@ -5,9 +5,10 @@
 	$tripID = isset($_GET['id']) ? $_GET['id'] : null;
 
 	$trip = $data->getTrip($tripID);
-	$expenses = $trip->getExpenses();
 
-	$payments = $data->splitExpenses($expenses);
+	$expenses = $trip->getExpenses();
+	$payments = $trip->getPayments();
+
 ?>
 <?php require 'header.php'; ?>
 
@@ -64,7 +65,7 @@
 
 					<span class="pull-right">
 						{{#if isPaid}}
-							<button class="btn btn-primary">
+							<button class="btn btn-primary" disabled>
 								<img src="img/mastercard.ico">
 								Paid
 							</button>
