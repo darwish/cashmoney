@@ -45,10 +45,6 @@
             <?php foreach ($trips as $trip): ?>
             <li><a href="/trip.php?tripID=<?=$trip->getID(); ?>"><?= $trip->getName(); ?></a></li>
             <?php endforeach; ?>
-            <?php if (isset($trips) && count($trips) > 0) :?>
-            <li role="separator" class="divider"></li>
-            <?php endif; ?>
-            <li><a href="/">Overview</a></li>
           </ul>
        </li>
      <?php endif; ?>
