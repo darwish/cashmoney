@@ -54,7 +54,15 @@
           </ul>
        </li>
      <?php endif; ?>
-     <p class="navbar-text" ><a class="navbar-btn" href="new-expenses.php">New Expenses</a></p>
+     <?php $pendingExpenses = (new CashMoney\Data\Data())->getPendingExpenses(); ?>
+     <p class="navbar-text">
+       <a class="navbar-btn" href="new-expenses.php">
+         New Expenses
+       </a>
+       <?php if (count($pendingExpenses) > 0): ?>
+        <span class="label label-danger" id="global-new-expenses-count"><?= count($pendingExpenses) ?></span>
+       <?php endif; ?>
+     </p>
 	</ul>
 	
       <form class="navbar-form navbar-right" role="search">

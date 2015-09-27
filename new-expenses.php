@@ -152,6 +152,12 @@
 			};
 
 			$('#expenses-container').html(renderTemplate('expense-template', expenseData));
+
+			if (expenses.length > 0) {
+				$('#global-new-expenses-count').text(expenses.length);
+			} else {
+				$('#global-new-expenses-count').text('');
+			}
 		}
 	})
 </script>
