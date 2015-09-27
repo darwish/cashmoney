@@ -115,7 +115,7 @@
 				<tr>
 					<th></th>
 					{{#each users}}
-						<th width="150" class="text-center">{{name}} <img src="img/{{name}}.png" class="img-circle" height="32" width="24" /></th>
+						<th width="150" class="text-center">{{name}}<br><img src="img/{{name}}.png" class="img-circle" height="32" width="24" /></th>
 					{{/each}}
 				</tr>
 
