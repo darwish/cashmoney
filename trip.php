@@ -87,6 +87,11 @@
 		</div>
 
 		<div class="panel-body">
+			<div id="progressDiv" class="progress hidden">
+			  <div id="progressBar" class="progress-bar progress-bar-success progress-bar-striped active" role="progressbar"
+			  aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width:100%"/>
+			</div>
+
 			<p>Payments that need to be made to reconcile all debts for the trip.</p>
 
 			<ul class="list-group payments">
@@ -241,6 +246,8 @@
 		});
 
 		$('#trip-repayment-container').on('click', '.do-all-payments', function() {
+		
+			progressDiv.classList.remove('hidden');
 			var button = $(this);
 			var buttonText = button.find('.do-payment-text');
 
@@ -252,7 +259,7 @@
 			$.post('do-payment.php', { tripID: "<?= $trip->getID() ?>" })
 				.done(function() {
 					buttonText.text('All Paid');
-
+					progressDiv.classList.add('hidden');
 					// Disable all individual payment buttons too
 					button.closest('.payments-panel').find('.do-payment')
 						.prop('disabled', true)
@@ -262,6 +269,8 @@
 					console.log(arguments);
 				})
 				.fail(function() {
+					progressBar.classList.remove('progress-bar-success');
+					progressBar.classList.add('progress-bar-fail');
 					button.prop('disabled', false);
 					buttonText.text(originalText);
 
