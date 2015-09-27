@@ -18,7 +18,16 @@
 </div>
 <div class="row">
 	<div id="trip-expenses-container" class="col-md-6"></div>
-	<div id="atm-map" class="col-md-6"></div>
+	<div id="map-container" class="col-md-6">
+		<div class="panel panel-default payments-panel" style="width:100%;">
+			<div class="panel-heading">
+				<h2>Trip Map</h2>
+			</div>
+		</div>
+		<div class="panel-body">
+			<div id="atm-map"></div>
+		</div>
+	</div>	
 </div>
 
 <?= '<script type="handlerbars-template" id="trip-expense-template">' ?>
