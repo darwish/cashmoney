@@ -128,11 +128,30 @@ textarea {
     color: #a94442;
 }
 
+#trip-expense-matrix-container .panel-body {
+    overflow-x: auto;
+}
 
+#trip-expense-matrix-container .panel-heading {
+    background-color: #FBCBCB;
+}
+#trip-repayment-container .panel-heading {
+    background-color: #E6C4EC;
+}
+#trip-expenses-container .panel-heading {
+    background-color: #D8FBEF;
+}
+#map-container .panel-heading {
+    background-color: #F5F5C1;
+}
 
+.navbar-default.navbar {
+    background-color: aliceblue;
+}
 
-
-
+h2 {
+    opacity: 0.8;
+}
 /* ==========================================================================
    Helper classes
    ========================================================================== */
