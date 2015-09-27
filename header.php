@@ -38,9 +38,15 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 	<ul class="nav navbar-nav">
+    <?php $trips = (new CashMoney\Data\Data())->getTrips(); ?>
     <?php if (isset($trips) && count($trips) > 0 ): ?>
 	      <li class="dropdown">
+        <?php if (isset($trip)): ?>
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?= $trip->getName(); ?> <span class="caret"></span></a>
+        <?php else: ?>
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">My Trips <span class="caret"></span></a>
+        <?php endif; ?>
+
           <ul class="dropdown-menu">
             <?php foreach ($trips as $trip): ?>
             <li><a href="/trip.php?id=<?=$trip->getID(); ?>"><?= $trip->getName(); ?></a></li>
