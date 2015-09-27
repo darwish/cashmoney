@@ -35,25 +35,25 @@ class Data {
 		$this->data['trips'][] = $trip;
 		$this->save();
 	}
-	
+
 	public function getTrips() {
 		return isset($this->data['trips']) ? $this->data['trips'] : [];
 	}
-	
+
 	public function getTrip($id) {
 		$trips = array_values(array_filter($this->getTrips(), function($trip) use($id) {
 			return $trip->getID() == $id;
 		}));
 		return isset($trips[0]) ? $trips[0] : null;
 	}
-	
+
 	public function removeTrip(Model\Trip $trip) {
 		$this->data['trips'] = array_values(array_filter($this->data['trips'], function($x) use($trip) {
 			return $x !== $trip;
 		}));
 		$this->save();
 	}
-	
+
 	public function getExpenses() {
 		return isset($this->data['expenses']) ? $this->data['expenses'] : [];
 	}
@@ -98,13 +98,15 @@ class Data {
 
 		$formattedExpensesString = json_encode($formattedExpenses);
 
-		if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-			$escapedExpensesString = preg_replace('/"/', '""', $formattedExpensesString);
-		} else {
-			$escapedExpensesString = escapeshellcmd($formattedExpensesString);
-		}
+		$encodedString = bin2hex($formattedExpensesString);
 
-		$cmd = "py splitengine.py \"$escapedExpensesString\" 2>&1";
+		// if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+		// 	$escapedExpensesString = preg_replace('/"/', '""', $formattedExpensesString);
+		// } else {
+		// 	$escapedExpensesString = escapeshellcmd($formattedExpensesString);
+		// }
+
+		$cmd = "python splitengine.py \"$encodedString\" 2>&1";
 		exec($cmd, $output, $return_value);
 
 		$splits = json_decode($output[0], true);

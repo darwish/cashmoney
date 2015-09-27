@@ -45,4 +45,6 @@ def test():
 
 if __name__ == '__main__':
     import sys
-    print( solve(sys.argv[1]) )
+    encoded = sys.argv[1]
+    string = bytearray.fromhex(encoded).decode()
+    print( solve(string) )
