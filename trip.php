@@ -13,135 +13,135 @@
 ?>
 <?php require 'header.php'; ?>
 
-<div class="row" id="trip-expenses-container">
+<div class="row equal">
+	<div id="trip-expense-matrix-container" class="col-sm-6"></div>
+	<div id="trip-repayment-container" class="col-sm-6"></div>
 </div>
 <div class="row">
-	<div id="atm-map" class="col-sm-8" style="height: 600px"></div>
+	<div id="trip-expenses-container" class="col-sm-6"></div>
+	<div id="atm-map" class="col-sm-6"></div>
 </div>
 
 <?= '<script type="handlerbars-template" id="trip-expense-template">' ?>
-	<div class="col-sm-8">
-		<div class="panel panel-default">
-			<div class="panel-heading"><h2>Total Expenses</h2></div>
-			<div class="panel-body">
+	<div class="panel panel-default">
+		<div class="panel-heading"><h2>Total Expenses</h2></div>
 
-		<table class="table table-striped table-hover expenses">
-			<tr>
-				<th>Expense</th>
-				<th>Amount</th>
-				<th>Paid By</th>
-			</tr>
-
-			{{#each expenses}}
+		<div class="panel-body">
+			<table class="table table-striped table-hover expenses">
 				<tr>
-					<td><b>{{name}} </b></td>
-
-					<td>{{formattedAmount}}</td>
-
-					<td>{{paidBy.name}}</td>
+					<th>Expense</th>
+					<th>Amount</th>
+					<th>Paid By</th>
 				</tr>
-			{{/each}}
 
-			<tr>
-				<th>Total</th>
-				<th>{{formattedTotal}}</th>
-				<th></th>
-			</tr>
-		</table>
-		</div>
+				{{#each expenses}}
+					<tr>
+						<td><b>{{name}} </b></td>
+
+						<td>{{formattedAmount}}</td>
+
+						<td>{{paidBy.name}}</td>
+					</tr>
+				{{/each}}
+
+				<tr>
+					<th>Total</th>
+					<th>{{formattedTotal}}</th>
+					<th></th>
+				</tr>
+			</table>
 		</div>
 	</div>
 <?= '</script>' ?>
 
 <?= '<script type="handlerbars-template" id="trip-payment-template">' ?>
-	<div class="col-sm-8">
-		<div class="panel panel-default payments-panel">
-			<div class="panel-heading">
-				<h2>
-					Pay Me Back
+	<div class="panel panel-default payments-panel" style="width:100%;">
+		<div class="panel-heading">
+			<h2>
+				Pay Me Back
 
-					<span class="pull-right">
-						{{#if isAllPaid}}
-							<button class="btn btn-default" disabled>
-								<img src="img/mastercard.ico">
-								All Paid
-							</button>
-						{{else}}
-							<button class="btn btn-default do-all-payments">
-								<img src="img/mastercard.ico">
-								<span class="do-payment-text">Pay All</span>
-							</button>
-						{{/if}}
-					</span>
-				</h2>
-			</div>
+				<span class="pull-right">
+					{{#if isAllPaid}}
+						<button class="btn btn-default" disabled>
+							<img src="img/mastercard.ico">
+							All Paid
+						</button>
+					{{else}}
+						<button class="btn btn-default do-all-payments">
+							<img src="img/mastercard.ico">
+							<span class="do-payment-text">Pay All</span>
+						</button>
+					{{/if}}
+				</span>
+			</h2>
+		</div>
 
-			<div class="panel-body">
-				<ul class="list-group payments">
-					{{#each payments}}
-						<li class="list-group-item clearfix">
-							<b>{{debtor.name}}</b> owes <b>{{formattedAmount}}</b> to <b>{{lender.name}}</b>
+		<div class="panel-body">
+			<p>Payments that need to be made to reconcile all debts for the trip.</p>
 
-							<span class="pull-right">
-								{{#if isPaid}}
-									<button class="btn btn-default" disabled>
-										<img src="img/mastercard.ico">
-										Paid
-									</button>
-								{{else}}
-									<button class="btn btn-default do-payment" data-debtor-id="{{debtor.id}}" data-lender-id="{{lender.id}}">
-										<img src="img/mastercard.ico">
-										<span class="do-payment-text">Pay {{lender.name}}</span>
-									</button>
-								{{/if}}
-							</span>
-						</li>
-					{{/each}}
-				</ul>
-			</div>
+			<ul class="list-group payments">
+				{{#each payments}}
+					<li class="list-group-item clearfix">
+						<b>{{debtor.name}}</b> owes <b>{{formattedAmount}}</b> to <b>{{lender.name}}</b>
+
+						<span class="pull-right">
+							{{#if isPaid}}
+								<button class="btn btn-default" disabled>
+									<img src="img/mastercard.ico">
+									Paid
+								</button>
+							{{else}}
+								<button class="btn btn-default do-payment" data-debtor-id="{{debtor.id}}" data-lender-id="{{lender.id}}">
+									<img src="img/mastercard.ico">
+									<span class="do-payment-text">Pay {{lender.name}}</span>
+								</button>
+							{{/if}}
+						</span>
+					</li>
+				{{/each}}
+			</ul>
 		</div>
 	</div>
 <?= '</script>' ?>
 
 <?= '<script type="handlerbars-template" id="trip-expense-by-user-template">' ?>
-	<div class="col-sm-8">
-		<div class="panel panel-default">
-			<div class="panel-heading"><h2>Expense Participation Matrix</h2></div>
-			<div class="panel-body">
+	<div class="panel panel-default">
+		<div class="panel-heading"><h2>Expense Participation Matrix</h2></div>
 
-		<p>Check marks in this table represent participation in the expense</p>
+		<div class="panel-body">
+			<p>Check marks in this table represent participation in the expense</p>
 
-		<table class="table table-bordered table-hover expenses">
-			<tr>
-				<th></th>
-				{{#each users}}
-					<th width="150" class="text-center">{{name}} <img src="img/{{name}}.png" class="img-circle" height="32" width="24" /></th>
-				{{/each}}
-			</tr>
-
-			{{#each expenses}}
+			<table class="table table-bordered table-hover expenses">
 				<tr>
-					<td>
-						<b>{{name}}</b><br>
-						<small>{{formattedAmount}}</small>
-					</td>
-
-					{{#each ../users}}
-						{{#ifContains id ../usedByIDs}}
-							<td class="toggleable text-center success expense-shared" data-user-id="{{id}}" data-expense-id="{{../id}}">
-								<i class="glyphicon glyphicon-ok text-success"></i>
-						{{else}}
-							<td class="toggleable" data-user-id="{{id}}" data-expense-id="{{../id}}">
-						{{/ifContains}}
-							</td>
+					<th></th>
+					{{#each users}}
+						<th width="150" class="text-center">{{name}} <img src="img/{{name}}.png" class="img-circle" height="32" width="24" /></th>
 					{{/each}}
 				</tr>
-			{{/each}}
-		</table>
-		</div>
+
+				{{#each expenses}}
+					<tr>
+						<td>
+							<b>{{name}}</b><br>
+							<small>{{formattedAmount}}</small>
+						</td>
+
+						{{#each ../users}}
+							{{#ifContains id ../usedByIDs}}
+								<td class="toggleable text-center success expense-shared" data-user-id="{{id}}" data-expense-id="{{../id}}">
+									<i class="glyphicon glyphicon-ok text-success"></i>
+							{{else}}
+								<td class="toggleable" data-user-id="{{id}}" data-expense-id="{{../id}}">
+							{{/ifContains}}
+								</td>
+						{{/each}}
+					</tr>
+				{{/each}}
+			</table>
 		</div>
 	</div>
 <?= '</script>' ?>
+
 <script>
 	$(function() {
 		var expenses = <?= json_encode($expenses); ?>;
@@ -179,9 +179,9 @@
 				users: users
 			};
 
-			$('#trip-expenses-container').html(renderTemplate('trip-expense-by-user-template', expenseData));
-			$('#trip-expenses-container').append(renderTemplate('trip-payment-template', paymentData));
-			$('#trip-expenses-container').append(renderTemplate('trip-expense-template', expenseData));
+			$('#trip-expense-matrix-container').html(renderTemplate('trip-expense-by-user-template', expenseData));
+			$('#trip-repayment-container').html(renderTemplate('trip-payment-template', paymentData));
+			$('#trip-expenses-container').html(renderTemplate('trip-expense-template', expenseData));
 
 			return expenseData
 		}
@@ -192,7 +192,7 @@
 		***/
 		var expenseData = renderAll(expenses, users, payments);
 
-		$('#trip-expenses-container').on('click', '.toggleable', function() {
+		$('#trip-expense-matrix-container').on('click', '.toggleable', function() {
 			var self = this;
 			expenseData.expenses.map(function(expense) {
 				if(expense.id==self.dataset.expenseId){
@@ -202,7 +202,7 @@
 					var userIds = expense.usedBy.map(function(u){return u.id});
 					var isParty = userIds.indexOf(parseInt(self.dataset.userId))!==-1;
 					var command = isParty ? "remove" : "add";
-					var args = { expenseId: expense.id, debtorID: self.dataset.userId };
+					var args = {tripID: "<?= $trip->getID() ?>", expenseId: expense.id, debtorID: self.dataset.userId };
 
 					$.post('update-expenses-shares.php?action='+command, args)
 						.done(function(response) {
@@ -213,7 +213,7 @@
 			});
 		})
 
-		$('#trip-expenses-container').on('click', '.do-payment', function() {
+		$('#trip-repayment-container').on('click', '.do-payment', function() {
 			var button = $(this);
 			var buttonText = button.find('.do-payment-text');
 			var debtorID = button.data('debtor-id');
@@ -238,7 +238,7 @@
 				});
 		});
 
-		$('#trip-expenses-container').on('click', '.do-all-payments', function() {
+		$('#trip-repayment-container').on('click', '.do-all-payments', function() {
 			var button = $(this);
 			var buttonText = button.find('.do-payment-text');
 
