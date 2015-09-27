@@ -46,6 +46,7 @@
 		{{#each users}}
 			<label>
 				<input type="checkbox" name="user[]" value="{{id}}" checked> {{name}}
+				<img src="img/{{name}}.png" height="32" width="24"/>
 			</label>
 		{{/each}}
 		<button class="btn btn-primary js-add-expense">Share</button>

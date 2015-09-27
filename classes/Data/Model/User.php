@@ -6,6 +6,7 @@ class User implements \JsonSerializable {
 
 	private $id;
 	private $name;
+	private $photofile;
 
 	private $expenses = [];
 	private $payments = [];
@@ -16,6 +17,7 @@ class User implements \JsonSerializable {
 			'name'     => $this->name,
 			'expenses' => $this->expenses,
 			'payments' => $this->payments,
+			'photo'	   => $this->photofile,
 		];
 	}
 
@@ -24,6 +26,14 @@ class User implements \JsonSerializable {
 	}
 	public function setID($id) {
 		$this->id = $id;
+	}
+	
+	public function setPhoto($photo) {
+		$this->photofile = $photo;
+	}
+	
+	public function getPhoto() {
+		return photofile;
 	}
 
 	public function getName() {
