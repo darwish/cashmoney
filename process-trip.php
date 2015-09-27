@@ -2,17 +2,17 @@
 
 require __DIR__ . '/bootstrap.php';
 
-$tripID = isset($_POST['id']) ? (int)$_POST['id'] : null;
+$tripID = isset($_GET['id']) ? (int)$_GET['id'] : null;
 $action = isset($_GET['action']) ? $_GET['action'] : null;
 $trip = null;
-
-if ($tripID) {
-	$trip = $data->getTrip($tripID);	
-}
 
 $auth = new CashMoney\Auth;
 $user = $auth->getCurrentUser();
 $data = new CashMoney\Data\Data();
+
+if ($tripID) {
+	$trip = $data->getTrip($tripID);	
+}
 
 switch ($action) {
 	case "add":

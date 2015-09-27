@@ -66,7 +66,7 @@
 				var id = $(e.target).closest('a').data('id');
 				lessFakeTripData = lessFakeTripData.filter(function(x) { return x.id !== id; });
 				listTrips();
-				$.get('process-trip?action=remove', id);
+				$.get('process-trip.php?action=remove', { id: id });
 			}
 		});
 	})
