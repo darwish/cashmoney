@@ -68,7 +68,7 @@
 	<div class="panel panel-default payments-panel" style="width:100%;">
 		<div class="panel-heading">
 			<h2>
-				Pay Me Back
+				Settle Trip
 
 				<span class="pull-right">
 					{{#if isAllPaid}}
@@ -79,7 +79,7 @@
 					{{else}}
 						<button class="btn btn-default do-all-payments">
 							<img src="img/mastercard.ico">
-							<span class="do-payment-text">Settle Trip</span>
+							<span class="do-payment-text">Pay All</span>
 						</button>
 					{{/if}}
 				</span>
