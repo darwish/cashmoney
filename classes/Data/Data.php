@@ -40,7 +40,8 @@ class Data {
 
 	public function getTrips() {
 		$trips = array_values(array_filter($this->data['trips'], function($trip) {
-			return !empty($trip->getID());
+			$tripID = $trip->getID();
+			return !empty($tripID);
 		}));
 		$this->data['trips'] = $trips;
 		$this->save();
