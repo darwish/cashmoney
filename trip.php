@@ -240,6 +240,7 @@
 			$.post('do-payment.php', { tripID: "<?= $trip->getID() ?>", debtorID: debtorID, lenderID: lenderID })
 				.done(function() {
 					buttonText.text('Paid');
+					$.growl({ title: "Paid!", message: "Your payment has been processed." });
 					console.log(arguments);
 				})
 				.fail(function() {
@@ -269,6 +270,7 @@
 						.prop('disabled', true)
 						.find('.do-payment-text').text('Paid');
 
+					$.growl({ title: "Paid!", message: "Your trip expenses have been settled." });
 					console.log(arguments);
 				})
 				.fail(function() {
