@@ -30,4 +30,4 @@ $expenses = $trip->getExpenses();
 $payments = $trip->getPayments(true);
 
 header("content-type:application/json");
-echo json_encode([$data->getExpenses(), $data->getUsers(), $payments]);
+echo json_encode([$expenses, $data->getUsers(), $payments]);
