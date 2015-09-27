@@ -5,6 +5,7 @@
 	$tripID = isset($_GET['id']) ? $_GET['id'] : null;
 
 	$trip = $data->getTrip($tripID);
+	$trips = $data->getTrips();
 
 	$expenses = $trip->getExpenses();
 	$payments = $trip->getPayments();
@@ -236,7 +237,7 @@
 
 		  var map = new google.maps.Map(document.getElementById('atm-map'), {
 		  	center: {lat: position.coords.latitude, lng: position.coords.longitude},
-		  	zoom: 4
+		  	zoom: 10
 		  });
 
 		  $.get('/find-atm.php?latitude='+position.coords.latitude+'&longitude='+position.coords.longitude, function (data, status, xhr) {

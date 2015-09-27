@@ -10,7 +10,7 @@ $addressData = isset($_POST['address']) ? $_POST['address'] : null;
 $cardData = isset($_POST['card']) ? $_POST['card'] : null;
 
 if (!$id) {
-	$id = mt_rand(1, PHP_INT_MAX);
+	$id = mt_rand(1, 1e8);
 }
 
 try {
