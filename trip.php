@@ -68,7 +68,7 @@
 					{{else}}
 						<button class="btn btn-default do-all-payments">
 							<img src="img/mastercard.ico">
-							<span class="do-payment-text">Pay All</span>
+							<span class="do-payment-text">Settle Trip</span>
 						</button>
 					{{/if}}
 				</span>

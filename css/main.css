@@ -311,10 +311,23 @@ textarea {
   font-size:1.5em;
 }
 
-.equal, .equal > div[class*='col-'] {
-    display: -webkit-flex;
-    display: flex;
-    flex:1 1 auto;
+
+#atm-map {
+  margin: 0 15px;
+  height: 500px;
+}
+@media (min-width: 768px) {
+  .equal, .equal > div[class*='col-'] {
+      display: -webkit-flex;
+      display: flex;
+      flex:1 1 auto;
+  }
+
+  #atm-map {
+    height: 394px;
+    margin-left: 15px;
+    width: calc(50% - 30px);
+  }
 }
 
 /* Doodlite */
@@ -432,9 +445,3 @@ textarea {
     font-size: 14px;
     line-height: 18px; }
 /* jquery growl */
-
-#atm-map {
-  height: 394px;
-  margin-left: 15px;
-  width: calc(50% - 30px);
-}
