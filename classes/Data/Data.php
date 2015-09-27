@@ -35,25 +35,25 @@ class Data {
 		$this->data['trips'][] = $trip;
 		$this->save();
 	}
-	
+
 	public function getTrips() {
 		return isset($this->data['trips']) ? $this->data['trips'] : [];
 	}
-	
+
 	public function getTrip($id) {
 		$trips = array_values(array_filter($this->getTrips(), function($trip) use($id) {
 			return $trip->getID() == $id;
 		}));
 		return isset($trips[0]) ? $trips[0] : null;
 	}
-	
+
 	public function removeTrip(Model\Trip $trip) {
 		$this->data['trips'] = array_values(array_filter($this->data['trips'], function($x) use($trip) {
 			return $x !== $trip;
 		}));
 		$this->save();
 	}
-	
+
 	public function getExpenses() {
 		return isset($this->data['expenses']) ? $this->data['expenses'] : [];
 	}
@@ -81,6 +81,46 @@ class Data {
 			return $e !== $expense;
 		}));
 		$this->save();
+	}
+
+	public function splitExpenses(array $expenses) {
+		$sharedExpenses = array_values(array_filter($expenses, function($e) {
+			return count($e->getUsedBy()) > 0;
+		}));
+
+		$formattedExpenses = array_map(function($e) {
+			$usedByIDs = array_map(function($u) {
+				return $u->getID();
+			}, $e->getUsedBy());
+
+			return [$e->getName(), $e->getAmount(), $e->getPaidBy()->getID(), $usedByIDs];
+		}, $sharedExpenses);
+
+		$formattedExpensesString = json_encode($formattedExpenses);
+
+		$encodedString = bin2hex($formattedExpensesString);
+
+		// if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+		// 	$escapedExpensesString = preg_replace('/"/', '""', $formattedExpensesString);
+		// } else {
+		// 	$escapedExpensesString = escapeshellcmd($formattedExpensesString);
+		// }
+
+		$cmd = "python splitengine.py \"$encodedString\" 2>&1";
+		exec($cmd, $output, $return_value);
+
+		$splits = json_decode($output[0], true);
+
+		$payments = [];
+		foreach ($splits as $split) {
+			$debtor = $this->getUserByID($split[0]);
+			$lender = $this->getUserByID($split[1]);
+			$amount = $split[2];
+
+			$payments[] = new Model\Payment($debtor, $lender, $amount);
+		}
+
+		return $payments;
 	}
 
 	public function getUsers() {
