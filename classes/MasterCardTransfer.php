@@ -2,6 +2,9 @@
 
 namespace CashMoney;
 
+if (!defined('MASTERCARD_DIR')) {
+    define('MASTERCARD_DIR', ROOT_DIR . 'vendor/darwish/mastercard-api-php/');
+}
 include_once MASTERCARD_DIR . 'common/Environment.php';
 include_once MASTERCARD_DIR . 'services/MoneySend/services/TransferService.php';
 include_once MASTERCARD_DIR . 'services/MoneySend/domain/Transfer.php';
@@ -34,53 +37,40 @@ class MasterCardTransfer {
         $this->transactionReference = $this->generateRandomNumber();
     }
 
-    public function doTransferRequestCardAccount() {
+    public function doTransferRequestCardAccount(
+        $amount,
+        $senderName, \Address $senderAddress, \FundingCard $fundingCard,
+        $receiverName, \Address $receiverAddress, \FundingCard $receivingCard
+    ) {
+
+        $amount = $amount * 100; // Implied decimal point.
+
         $this->transferRequestCard = new \TransferRequest();
         $this->transferRequestCard->setLocalDate(date('md'));
         $this->transferRequestCard->setLocalTime(date('his'));
         $this->transferRequestCard->setTransactionReference($this->transactionReference);
-        $this->transferRequestCard->setSenderName("John Doe");
+        $this->transferRequestCard->setSenderName($senderName);
 
-        $address = new \SenderAddress();
-        $address->setLine1("123 Main Street");
-        $address->setLine2("#5A");
-        $address->setCity("Arlington");
-        $address->setCountrySubdivision("VA");
-        $address->setPostalCode(22207);
-        $address->setCountry("USA");
-        $this->transferRequestCard->setSenderAddress($address);
+        $this->transferRequestCard->setSenderAddress($senderAddress);
 
-        $fundingCard = new \FundingCard();
-        $fundingCard->setAccountNumber("5184680430000006");
-        $fundingCard->setExpiryMonth(11);
-        $fundingCard->setExpiryYear(2018);
         $this->transferRequestCard->setFundingCard($fundingCard);
         $this->transferRequestCard->setFundingUCAF("MjBjaGFyYWN0ZXJqdW5rVUNBRjU=1111");
         $this->transferRequestCard->setFundingMasterCardAssignedId(123456);
 
         $fundingAmount = new \FundingAmount();
-        $fundingAmount->setValue(15000);
+        $fundingAmount->setValue($amount);
         $fundingAmount->setCurrency(840);
         $this->transferRequestCard->setFundingAmount($fundingAmount);
-        $this->transferRequestCard->setReceiverName("Jose Lopez");
+        $this->transferRequestCard->setReceiverName($receiverName);
 
-        $receiverAddress = new \ReceiverAddress();
-        $receiverAddress->setLine1("Pueblo Street");
-        $receiverAddress->setLine2("PO BOX 12");
-        $receiverAddress->setCity("El PASO");
-        $receiverAddress->setCountrySubdivision("TX");
-        $receiverAddress->setPostalCode(79906);
-        $receiverAddress->setCountry("USA");
         $this->transferRequestCard->setReceiverAddress($receiverAddress);
         $this->transferRequestCard->setReceiverPhone("1800639426");
 
-        $receivingCard = new \ReceivingCard();
-        $receivingCard->setAccountNumber("5184680430000006");
         $this->transferRequestCard->setReceivingCard($receivingCard);
 
         $receivingAmount = new \ReceivingAmount();
-        $receivingAmount->setValue(182206);
-        $receivingAmount->setCurrency(484);
+        $receivingAmount->setValue($amount);
+        $receivingAmount->setCurrency(840);
         $this->transferRequestCard->setReceivingAmount($receivingAmount);
         $this->transferRequestCard->setChannel("W");
         $this->transferRequestCard->setUCAFSupport("false");
@@ -99,47 +89,6 @@ class MasterCardTransfer {
         $this->transferRequestCard->setMerchantId(123456);
 
         return $this->transferService->getTransfer($this->transferRequestCard);
-    }
-
-    public function doPaymentRequestCardAccount() {
-        $this->paymentRequestCard = new \PaymentRequest();
-        $this->paymentRequestCard->setLocalDate(date('md'));
-        $this->paymentRequestCard->setLocalTime(date('his'));
-        $this->paymentRequestCard->setTransactionReference($this->transactionReference);
-        $this->paymentRequestCard->setSenderName("John Doe");
-
-        $address = new \SenderAddress();
-        $address->setLine1("123 Main Street");
-        $address->setLine2("#5A");
-        $address->setCity("Arlington");
-        $address->setCountrySubdivision("VA");
-        $address->setPostalCode(22207);
-        $address->setCountry("USA");
-        $this->paymentRequestCard->setSenderAddress($address);
-
-        $receivingCard = new \ReceivingCard();
-        $receivingCard->setAccountNumber("5184680430000006");
-        $this->paymentRequestCard->setReceivingCard($receivingCard);
-
-        $receivingAmount = new \ReceivingAmount();
-        $receivingAmount->setValue(182207);
-        $receivingAmount->setCurrency(484);
-        $this->paymentRequestCard->setReceivingAmount($receivingAmount);
-        $this->paymentRequestCard->setICA("009674");
-        $this->paymentRequestCard->setProcessorId("9000000442");
-        $this->paymentRequestCard->setRoutingAndTransitNumber(990442082);
-
-        $cardAcceptor = new \CardAcceptor();
-        $cardAcceptor->setName("My Local Bank");
-        $cardAcceptor->setCity("Saint Louis");
-        $cardAcceptor->setState("MO");
-        $cardAcceptor->setPostalCode(63101);
-        $cardAcceptor->setCountry("USA");
-        $this->paymentRequestCard->setCardAcceptor($cardAcceptor);
-        $this->paymentRequestCard->setTransactionDesc("P2P");
-        $this->paymentRequestCard->setMerchantId(123456);
-
-        return $this->transferService->getTransfer($this->paymentRequestCard);
     }
 
 	private function generateRandomNumber() {

@@ -24,7 +24,7 @@
 		<div class="panel panel-default">
 			<div class="panel-heading"><h2>Total Expenses</h2></div>
 			<div class="panel-body">
-		
+
 		<table class="table table-striped table-hover expenses">
 			<tr>
 				<th>Expense</th>
@@ -108,7 +108,7 @@
 		<div class="panel panel-default">
 			<div class="panel-heading"><h2>Expense Participation Matrix</h2></div>
 			<div class="panel-body">
-		
+
 		<p>Check marks in this table represent participation in the expense</p>
 
 		<table class="table table-bordered table-hover expenses">
@@ -150,6 +150,7 @@
 
 		function renderAll(expenses, users, payments) {
 			var total = 0;
+			var isAllPaid = true;
 
 			for (var i = 0; i < expenses.length; i++) {
 				total += expenses[i].amount;
@@ -159,10 +160,14 @@
 
 			for (var i = 0; i < payments.length; i++) {
 				payments[i].formattedAmount = formatMoney(payments[i].amount, 2, '.', ',', true);
+				if (!payments[i].isPaid) {
+					isAllPaid = false;
+				}
 			}
 
 
 			var paymentData = {
+				isAllPaid: isAllPaid,
 				payments: payments
 			}
 
