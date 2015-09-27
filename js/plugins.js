@@ -36,3 +36,24 @@ function formatMoney(number, decimals, decimalSeparator, thousandsSeparator, sho
 
     return leftSide + (j ? i.substr(0, j) + thousandsSeparator : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + thousandsSeparator) + (decimals ? decimalSeparator + Math.abs(number - i).toFixed(decimals).slice(2) : "") + signRight;
 }
+
+Handlebars.registerHelper('ifContains', function(needle, haystack, options) {
+    if (!haystack) { return false; }
+    return haystack.indexOf(needle) !== -1 ? options.fn(this) : options.inverse(this);
+});
+
+Handlebars.registerHelper("debug", function(optionalValue) {
+    // console.log("Current Context");
+    // console.log("====================");
+    // console.log(this);
+
+    if (optionalValue) {
+        // console.log("Value");
+        // console.log("====================");
+        console.log(optionalValue);
+    }
+});
+
+Handlebars.registerHelper("debugger", function() {
+    debugger;
+});

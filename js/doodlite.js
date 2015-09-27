@@ -3,7 +3,7 @@
 var state = window.sessionStorage,
     NROW = parseInt(state.getItem("NROW")) || 2,
     NCOL = parseInt(state.getItem("NCOL")) || 2,
-    table = document.getElementById("table");
+    table = $('.doodlite')[0];
 
 window.onload = function() {
     newButton("Add Row", function() { changeRow(+1) });
