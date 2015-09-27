@@ -5,7 +5,7 @@
 </div>
 
 <?= '<script type="handlerbars-template" id="expense-template">' ?>
-	<div class="col-sm-8">
+	<div class="col-sm-10">
 	<div class="panel panel-default">
 		<div class="panel-heading"><h1>New Expenses</h1></div>
 		<div class="panel-body">
@@ -13,9 +13,10 @@
 
 		<table class="table table-striped table-hover expenses">
 			<tr>
-				<th>Expense</th>
-				<th>Amount</th>
-				<th>Action</th>
+				<th class="col-sm-4">Expense</th>
+				<th class="col-sm-2">Amount</th>
+				<th class="col-sm-2">Action</th>
+				<th class="col-sm-4">Trip</th>
 			</tr>
 
 			{{#each expenses}}
@@ -30,10 +31,22 @@
 								<i class="glyphicon glyphicon-ok text-success" title="Add expense to this trip"></i>
 							</button>
 
+							<button class="btn btn-primary js-add-expense hidden" data-expense-id="{{id}}">
+								Share
+							</button>
+
 							<button class="btn btn-default js-remove-expense" data-expense-id="{{id}}">
 								<i class="glyphicon glyphicon-remove text-danger" title="Remove expense from this trip"></i>
 							</button>
 						</div>
+					</td>
+
+					<td>
+						<select name="tripID" class="form-control hidden">
+							{{#each ../trips}}
+								<option value="{{id}}">{{name}}</option>
+							{{/each}}
+						</select>
 					</td>
 				</tr>
 				<tr class="share hidden"></tr>
@@ -45,17 +58,7 @@
 <?= '</script>' ?>
 
 <?= '<script type="handlerbars-template" id="share-expense-template">' ?>
-	<td colspan="4">
-		<div class="row">
-			<div class="form-group col-sm-6 clearfix">
-				<select name="tripID" class="form-control">
-				{{#each trips}}
-					<option value="{{id}}">{{name}}</option>
-				{{/each}}
-				</select>
-			</div>
-		</div>
-
+	<td colspan="4" class="text-center">
 		<div class="row">
 			<div class="col-sm-12">
 				<input type="hidden" name="expenseID" value="{{expenseID}}">
@@ -68,7 +71,7 @@
 			</div>
 		</div>
 
-		<button class="btn btn-primary js-add-expense">Share</button>
+		<!-- <button class="btn btn-primary js-add-expense">Share</button> -->
 	</div>
 <?= '</script>' ?>
 
@@ -87,7 +90,8 @@
 		var expenseData = {
 			expenseCount: expenses.length,
 			expenseInflected: expenses.length === 1 ? "expense" : "expenses",
-			expenses: expenses
+			expenses: expenses,
+			trips: trips
 		};
 
 		$('#expenses-container').html(renderTemplate('expense-template', expenseData));
@@ -97,23 +101,31 @@
 			var expenseID = button.data('expense-id');
 			var row = button.closest('tr');
 			var shareRow = row.next('tr.share');
+			var shareButton = row.find('.js-add-expense');
+			var tripsSelect = row.find('[name=tripID]');
 
 			var data = {
 				expenseID: expenseID,
-				users: users,
-				trips: trips
+				users: users
 			};
+
+			button.remove(); // We remove it so that the sharebutton gets first-child styles.
+			shareButton.removeClass('hidden');
+			tripsSelect.removeClass('hidden');
 
 			shareRow.html(renderTemplate('share-expense-template', data)).removeClass('hidden');
 		});
 
 		$('#expenses-container').on('click', '.js-add-expense', function() {
 			var button = $(this);
-			var cell = button.closest('td');
+			var row = button.closest('tr');
+			var shareRow = row.next('tr.share');
+			var tripsSelect = row.find('[name=tripID]');
 
-			$.post("process-expense.php?action=add", cell.find(':input').serialize())
+			$.post("process-expense.php?action=add", shareRow.find(':input').add(tripsSelect).serialize())
 				.done(function() {
-					alert("Added!");
+					$.growl({ title: "Added!", message: "Your expense has been shared." });
+					row.add(shareRow).remove();
 					console.log(arguments);
 				})
 				.fail(function() {
