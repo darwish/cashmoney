@@ -2,13 +2,14 @@
 <?php
 	$data = new CashMoney\Data\Data();
 
-	$tripID = isset($_GET['tripID']) ? $_GET['tripID'] : null;
+	$tripID = isset($_GET['id']) ? $_GET['id'] : null;
 
 	$trip = $data->getTrip($tripID);
 	$trips = $data->getTrips();
-	$expenses = $data->getExpenses();
 
-	$payments = $data->splitExpenses($expenses);
+	$expenses = $trip->getExpenses();
+	$payments = $trip->getPayments();
+
 ?>
 <?php require 'header.php'; ?>
 
@@ -64,7 +65,17 @@
 					<b>{{debtor.name}}</b> owes <b>{{formattedAmount}}</b> to <b>{{lender.name}}</b>
 
 					<span class="pull-right">
-						<button class="btn btn-primary do-payment" data-debtor-id="{{debtor.id}}" data-lender-id="{{lender.id}}">Pay {{lender.name}}</button>
+						{{#if isPaid}}
+							<button class="btn btn-primary" disabled>
+								<img src="img/mastercard.ico">
+								Paid
+							</button>
+						{{else}}
+							<button class="btn btn-default do-payment" data-debtor-id="{{debtor.id}}" data-lender-id="{{lender.id}}">
+								<img src="img/mastercard.ico">
+								Pay {{lender.name}}
+							</button>
+						{{/if}}
 					</span>
 				</li>
 			{{/each}}
@@ -152,7 +163,7 @@
 			var debtorID = button.data('debtor-id');
 			var lenderID = button.data('lender-id');
 
-			$.post('do-payment.php', { tripID: null, debtorID: debtorID, lenderID: lenderID })
+			$.post('do-payment.php', { tripID: "<?= $trip->getID() ?>", debtorID: debtorID, lenderID: lenderID })
 				.done(function() {
 					alert("Paid!");
 					console.log(arguments);

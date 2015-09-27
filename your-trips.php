@@ -16,7 +16,7 @@
 
 <script type="handlerbars-template" id="trip-item-template">
 	{{#each this}}
-		<a href="trip.php?tripID={{id}}" data-id="{{id}}" class="list-group-item">{{name}}<span class="remove glyphicon glyphicon-remove pull-right"/></a>
+		<a href="trip.php?id={{id}}" data-id="{{id}}" class="list-group-item">{{name}}<span class="remove glyphicon glyphicon-remove pull-right"/></a>
 	{{/each}}
 </script>
 
@@ -66,7 +66,7 @@
 				var id = $(e.target).closest('a').data('id');
 				lessFakeTripData = lessFakeTripData.filter(function(x) { return x.id !== id; });
 				listTrips();
-				$.get('process-trip?action=remove', id);
+				$.get('process-trip?action=remove&id='+id);
 			}
 		});
 	})

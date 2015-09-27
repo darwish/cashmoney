@@ -5,19 +5,19 @@ require __DIR__ . '/../bootstrap.php';
 $validCommands = ['all', 'expenses', 'users'];
 
 if (!isset($argv[1])) {
-	echo "Usage: {$argv[0]} <".implode('|', $validCommands).">\n";
+	echo "Usage: {$argv[0]} -c <".implode('|', $validCommands)."> [-p port] [-d root]\n";
 	exit(1);
 }
 
-$command = $argv[1];
-if (!in_array($command, $validCommands)) {
-	echo "Command must be one of: \n";
-	exit(1);
-}
-
-$opts = getopt("p:d:");
+$opts = getopt("c:p:d:");
+$command = isset($opts['c']) ? $opts['c'] : null;
 $port = isset($opts['p']) && $opts['p'] ? $opts['p'] : 80;
 $root = isset($opts['d']) && $opts['d'] ? $opts['d'] : '';
+
+if (!in_array($command, $validCommands)) {
+	echo "Command must be one of: " . implode(", ", $validCommands) . "\n";
+	exit(1);
+}
 
 if ($command === 'all' || $command === 'users') {
 	$users = [

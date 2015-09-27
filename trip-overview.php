@@ -3,7 +3,7 @@
 
 	$data = new CashMoney\Data\Data();
 
-	$tripID = isset($_GET['tripID']) ? $_GET['tripID'] : null;
+	$tripID = isset($_GET['id']) ? $_GET['id'] : null;
 
 	$trip = $data->getTrip($tripID);
 	$trips = $data->getTrips();

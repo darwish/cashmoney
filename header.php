@@ -39,15 +39,16 @@
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 	<ul class="nav navbar-nav">
     <?php if (isset($trips) && count($trips) > 0 ): ?>
-	<li class="dropdown">
+	      <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?= $trip->getName(); ?> <span class="caret"></span></a>
           <ul class="dropdown-menu">
             <?php foreach ($trips as $trip): ?>
-            <li><a href="/trip.php?tripID=<?=$trip->getID(); ?>"><?= $trip->getName(); ?></a></li>
+            <li><a href="/trip.php?id=<?=$trip->getID(); ?>"><?= $trip->getName(); ?></a></li>
             <?php endforeach; ?>
           </ul>
        </li>
      <?php endif; ?>
+     <p class="navbar-text" ><a class="navbar-btn" href="new-expenses.php">New Expenses</a></p>
 	</ul>
 	
       <form class="navbar-form navbar-right" role="search">
