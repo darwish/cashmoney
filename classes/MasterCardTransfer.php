@@ -47,7 +47,7 @@ class MasterCardTransfer {
 
         $this->transferRequestCard = new \TransferRequest();
         $this->transferRequestCard->setLocalDate(date('md'));
-        $this->transferRequestCard->setLocalTime(date('his'));
+        $this->transferRequestCard->setLocalTime(date('His'));
         $this->transferRequestCard->setTransactionReference($this->transactionReference);
         $this->transferRequestCard->setSenderName($senderName);
 
