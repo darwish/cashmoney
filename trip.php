@@ -2,21 +2,29 @@
 <?php
 	$data = new CashMoney\Data\Data();
 
-	$tripID = isset($_GET['tripID']) ? $_GET['tripID'] : null;
+	$tripID = isset($_GET['id']) ? $_GET['id'] : null;
 
-	// $trip = $data->getTripByID($tripID);
-	$expenses = $data->getExpenses();
+	$trip = $data->getTrip($tripID);
+	$trips = $data->getTrips();
 
-	$payments = $data->splitExpenses($expenses);
+	$expenses = $trip->getExpenses();
+	$payments = $trip->getPayments();
+
 ?>
 <?php require 'header.php'; ?>
 
 <div class="row" id="trip-expenses-container">
 </div>
+<div class="row">
+	<div id="atm-map" class="col-sm-8" style="height: 600px"></div>
+</div>
 
 <?= '<script type="handlerbars-template" id="trip-expense-template">' ?>
 	<div class="col-sm-8">
-		<h2>Total Expenses</h2>
+		<div class="panel panel-default">
+			<div class="panel-heading"><h2>Total Expenses</h2></div>
+			<div class="panel-body">
+		
 		<table class="table table-striped table-hover expenses">
 			<tr>
 				<th>Expense</th>
@@ -40,29 +48,67 @@
 				<th></th>
 			</tr>
 		</table>
+		</div>
+		</div>
 	</div>
 <?= '</script>' ?>
 
 <?= '<script type="handlerbars-template" id="trip-payment-template">' ?>
 	<div class="col-sm-8">
-		<h2>Pay Me Back</h2>
-		<ul class="list-group payments">
-			{{#each payments}}
-				<li class="list-group-item clearfix">
-					<b>{{debtor.name}}</b> owes <b>{{formattedAmount}}</b> to <b>{{lender.name}}</b>
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h2>
+					Pay Me Back
 
 					<span class="pull-right">
-						<button class="btn btn-primary do-payment" data-debtor-id="{{debtor.id}}" data-lender-id="{{lender.id}}">Pay {{lender.name}}</button>
+						{{#if isAllPaid}}
+							<button class="btn btn-default" disabled>
+								<img src="img/mastercard.ico">
+								All Paid
+							</button>
+						{{else}}
+							<button class="btn btn-default do-all-payments">
+								<img src="img/mastercard.ico">
+								<span class="do-payment-text">Pay All</span>
+							</button>
+						{{/if}}
 					</span>
-				</li>
-			{{/each}}
-		</table>
+				</h2>
+			</div>
+
+			<div class="panel-body">
+				<ul class="list-group payments">
+					{{#each payments}}
+						<li class="list-group-item clearfix">
+							<b>{{debtor.name}}</b> owes <b>{{formattedAmount}}</b> to <b>{{lender.name}}</b>
+
+							<span class="pull-right">
+								{{#if isPaid}}
+									<button class="btn btn-default" disabled>
+										<img src="img/mastercard.ico">
+										Paid
+									</button>
+								{{else}}
+									<button class="btn btn-default do-payment" data-debtor-id="{{debtor.id}}" data-lender-id="{{lender.id}}">
+										<img src="img/mastercard.ico">
+										<span class="do-payment-text">Pay {{lender.name}}</span>
+									</button>
+								{{/if}}
+							</span>
+						</li>
+					{{/each}}
+				</ul>
+			</div>
+		</div>
 	</div>
 <?= '</script>' ?>
 
 <?= '<script type="handlerbars-template" id="trip-expense-by-user-template">' ?>
 	<div class="col-sm-8">
-		<h2>Expense Participation Matrix</h2>
+		<div class="panel panel-default">
+			<div class="panel-heading"><h2>Expense Participation Matrix</h2></div>
+			<div class="panel-body">
+		
 		<p>Check marks in this table represent participation in the expense</p>
 
 		<table class="table table-bordered table-hover expenses">
@@ -92,9 +138,10 @@
 				</tr>
 			{{/each}}
 		</table>
+		</div>
+		</div>
 	</div>
 <?= '</script>' ?>
-
 <script>
 	$(function() {
 		var expenses = <?= json_encode($expenses); ?>;
@@ -163,22 +210,79 @@
 
 		$('#trip-expenses-container').on('click', '.do-payment', function() {
 			var button = $(this);
+			var buttonText = button.find('.do-payment-text');
 			var debtorID = button.data('debtor-id');
 			var lenderID = button.data('lender-id');
 
-			$.post('do-payment.php', { tripID: null, debtorID: debtorID, lenderID: lenderID })
+			var originalText = buttonText.text();
+
+			button.prop('disabled', true);
+			buttonText.text('Processing...');
+
+			$.post('do-payment.php', { tripID: "<?= $trip->getID() ?>", debtorID: debtorID, lenderID: lenderID })
 				.done(function() {
-					alert("Paid!");
+					buttonText.text('Paid');
 					console.log(arguments);
 				})
 				.fail(function() {
+					button.prop('disabled', false);
+					buttonText.text(originalText);
+
+					alert("Something went wrong!");
+					console.error(arguments);
+				});
+		});
+
+		$('#trip-expenses-container').on('click', '.do-all-payments', function() {
+			var button = $(this);
+			var buttonText = button.find('.do-payment-text');
+
+			var originalText = buttonText.text();
+
+			button.prop('disabled', true);
+			buttonText.text('Processing...');
+
+			$.post('do-payment.php', { tripID: "<?= $trip->getID() ?>" })
+				.done(function() {
+					buttonText.text('All Paid');
+					console.log(arguments);
+				})
+				.fail(function() {
+					button.prop('disabled', false);
+					buttonText.text(originalText);
+
 					alert("Something went wrong!");
 					console.error(arguments);
 				});
 		});
 	});
+
+	function initMap() {
+		navigator.geolocation.getCurrentPosition(function(position) {
+
+		  var map = new google.maps.Map(document.getElementById('atm-map'), {
+		  	center: {lat: position.coords.latitude, lng: position.coords.longitude},
+		  	zoom: 4
+		  });
+
+		  $.get('/find-atm.php?latitude='+position.coords.latitude+'&longitude='+position.coords.longitude, function (data, status, xhr) {
+		  	for (var i = 0; i < data.length; i++) {
+		  		var latLng = new google.maps.LatLng(data[i].position.lat, data[i].position.lng);
+		  		var marker = new google.maps.Marker({
+		  			position: latLng,
+		  			title: data[i].title,
+		  			visible: true
+		  		});
+		  		marker.setMap(map);
+		  	}
+		  });
+		});
+	}
+
 </script>
 
-<iframe width="800" height="600" frameborder="1" style="border:0" src="https://www.google.com/maps/embed/v1/search?key=AIzaSyCsA7P1BKADJMcmSgi9z31iY3dIIOGewYs&q={{location}}" allowfullscreen></iframe>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCsA7P1BKADJMcmSgi9z31iY3dIIOGewYs&callback=initMap" async defer></script>
+
+<!-- <iframe id="atm-map" width="800" height="600" frameborder="1" style="border:0" src="https://www.google.com/maps/embed/v1/search?key=AIzaSyCsA7P1BKADJMcmSgi9z31iY3dIIOGewYs&q={{location}}" allowfullscreen></iframe> -->
 
 <?php require 'footer.php'; ?>

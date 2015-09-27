@@ -38,8 +38,8 @@ class MasterCardTransfer {
 
     public function doTransferRequestCardAccount() {
         $this->transferRequestCard = new \TransferRequest();
-        $this->transferRequestCard->setLocalDate("1212");
-        $this->transferRequestCard->setLocalTime("161222");
+        $this->transferRequestCard->setLocalDate(date('md'));
+        $this->transferRequestCard->setLocalTime(date('his'));
         $this->transferRequestCard->setTransactionReference($this->transactionReference);
         $this->transferRequestCard->setSenderName("John Doe");
 
@@ -100,18 +100,13 @@ class MasterCardTransfer {
         $this->transferRequestCard->setTransactionDesc("P2P");
         $this->transferRequestCard->setMerchantId(123456);
 
-        $this->transfer = $this->transferService->getTransfer($this->transferRequestCard);
-        // $this->assertTrue($this->transfer != null);
-        // $this->assertTrue($this->transfer->getTransactionReference() > 0);
-        // $this->assertTrue($this->transfer->getTransactionHistory() != null);
-        // $this->assertTrue($this->transfer->getTransactionHistory()->getTransaction(0)->getResponse()->getCode() == 00);
-        // $this->assertTrue($this->transfer->getTransactionHistory()->getTransaction(1)->getResponse()->getCode() == 00);
+        return $this->transferService->getTransfer($this->transferRequestCard);
     }
 
     public function doPaymentRequestCardAccount() {
         $this->paymentRequestCard = new \PaymentRequest();
-        $this->paymentRequestCard->setLocalDate("1212");
-        $this->paymentRequestCard->setLocalTime("161222");
+        $this->paymentRequestCard->setLocalDate(date('md'));
+        $this->paymentRequestCard->setLocalTime(date('his'));
         $this->paymentRequestCard->setTransactionReference($this->transactionReference);
         $this->paymentRequestCard->setSenderName("John Doe");
 
@@ -146,11 +141,7 @@ class MasterCardTransfer {
         $this->paymentRequestCard->setTransactionDesc("P2P");
         $this->paymentRequestCard->setMerchantId(123456);
 
-        $this->transfer = $this->transferService->getTransfer($this->paymentRequestCard);
-        // $this->assertTrue($this->transfer != null);
-        // $this->assertTrue($this->transfer->getTransactionReference() > 0);
-        // $this->assertTrue($this->transfer->getTransactionHistory() != null);
-        // $this->assertTrue($this->transfer->getTransactionHistory()->getTransaction(0)->getResponse()->getCode() == 00);
+        return $this->transferService->getTransfer($this->paymentRequestCard);
     }
 
 	private function generateRandomNumber() {

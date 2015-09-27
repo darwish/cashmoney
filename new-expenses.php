@@ -6,7 +6,9 @@
 
 <?= '<script type="handlerbars-template" id="expense-template">' ?>
 	<div class="col-sm-8">
-		<h1>New Expenses</h1>
+	<div class="panel panel-default">
+		<div class="panel-heading"><h1>New Expenses</h1></div>
+		<div class="panel-body">
 		<p>You have {{expenseCount}} new {{expenseInflected}} to file.</p>
 
 		<table class="table table-striped table-hover expenses">
@@ -37,18 +39,35 @@
 				<tr class="share hidden"></tr>
 			{{/each}}
 		</table>
+		</div>
+		</div>
 	</div>
 <?= '</script>' ?>
 
 <?= '<script type="handlerbars-template" id="share-expense-template">' ?>
 	<td colspan="4">
-		<input type="hidden" name="id" value="{{expenseID}}">
-		{{#each users}}
-			<label>
-				<input type="checkbox" name="user[]" value="{{id}}" checked> {{name}}
-				<img src="img/{{name}}.png" class="img-circle" height="32" width="24"/>
-			</label>
-		{{/each}}
+		<div class="row">
+			<div class="form-group col-sm-6 clearfix">
+				<select name="tripID" class="form-control">
+				{{#each trips}}
+					<option value="{{id}}">{{name}}</option>
+				{{/each}}
+				</select>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-sm-12">
+				<input type="hidden" name="expenseID" value="{{expenseID}}">
+				{{#each users}}
+					<label>
+						<input type="checkbox" name="user[]" value="{{id}}" checked> {{name}}
+						<img src="img/{{name}}.png" class="img-circle" height="32" width="24"/>
+					</label>
+				{{/each}}
+			</div>
+		</div>
+
 		<button class="btn btn-primary js-add-expense">Share</button>
 	</div>
 <?= '</script>' ?>
@@ -58,6 +77,7 @@
 		<?php $data = new CashMoney\Data\Data(); ?>
 		var expenses = <?= json_encode($data->getPendingExpenses()); ?>;
 		var users = <?= json_encode($data->getUsers()); ?>;
+		var trips = <?= json_encode($data->getTrips()); ?>;
 
 		// Process data for rendering
 		for (var i = 0; i < expenses.length; i++) {
@@ -80,7 +100,8 @@
 
 			var data = {
 				expenseID: expenseID,
-				users: users
+				users: users,
+				trips: trips
 			};
 
 			shareRow.html(renderTemplate('share-expense-template', data)).removeClass('hidden');
@@ -106,7 +127,7 @@
 			var row = button.closest('tr');
 			var expenseID = button.data('expense-id');
 
-			$.post("process-expense.php?action=remove", {id: expenseID })
+			$.post("process-expense.php?action=remove", { expenseID: expenseID })
 				.done(function() {
 					row.remove();
 				})
