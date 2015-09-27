@@ -9,6 +9,7 @@
 	$expenses = $trip->getExpenses();
 	$payments = $trip->getPayments();
 
+	$pageTitle = htmlentities($trip->getName());
 ?>
 <?php require 'header.php'; ?>
 

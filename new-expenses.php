@@ -1,4 +1,5 @@
 <?php require __DIR__ . '/bootstrap.php'; ?>
+<?php $pageTitle = "New Expenses"; ?>
 <?php require 'header.php'; ?>
 
 <div class="row" id="expenses-container">
