@@ -316,7 +316,7 @@ textarea {
   margin: 0 15px;
   height: 500px;
 }
-@media (min-width: 768px) {
+@media (min-width: 992px) {
   .equal, .equal > div[class*='col-'] {
       display: -webkit-flex;
       display: flex;

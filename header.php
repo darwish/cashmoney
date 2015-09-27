@@ -53,8 +53,8 @@
         <?php endif; ?>
 
           <ul class="dropdown-menu">
-            <?php foreach ($trips as $trip): ?>
-            <li><a href="trip.php?id=<?=$trip->getID(); ?>"><?= $trip->getName(); ?></a></li>
+            <?php foreach ($trips as $trip_a): ?>
+            <li><a href="trip.php?id=<?=$trip_a->getID(); ?>"><?= $trip_a->getName(); ?></a></li>
             <?php endforeach; ?>
           </ul>
        </li>

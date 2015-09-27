@@ -13,12 +13,12 @@
 <?php require 'header.php'; ?>
 
 <div class="row equal">
-	<div id="trip-expense-matrix-container" class="col-sm-6"></div>
-	<div id="trip-repayment-container" class="col-sm-6"></div>
+	<div id="trip-expense-matrix-container" class="col-md-6"></div>
+	<div id="trip-repayment-container" class="col-md-6"></div>
 </div>
 <div class="row">
-	<div id="trip-expenses-container" class="col-sm-6"></div>
-	<div id="atm-map" class="col-sm-6"></div>
+	<div id="trip-expenses-container" class="col-md-6"></div>
+	<div id="atm-map" class="col-md-6"></div>
 </div>
 
 <?= '<script type="handlerbars-template" id="trip-expense-template">' ?>
