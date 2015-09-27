@@ -125,6 +125,10 @@ class Data {
 			$lender = $this->getUserByID($split[1]);
 			$amount = $split[2];
 
+			if ($split[0] == $split[1] || $amount <= 0) {
+				continue;
+			}
+
 			$payments[] = new Model\Payment($debtor, $lender, $amount);
 		}
 
