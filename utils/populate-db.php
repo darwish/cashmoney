@@ -109,10 +109,10 @@ if ($command === 'all' || $command === 'users') {
 
 if ($command === 'all' || $command === 'expenses') {
 	$things = [
-		'Beef', 'Beer', 'Mustard', 'Tents', 'Ski Tickets', 'Insurance', 'Gas',
+		'Junk Food', 'Beer', 'Lift Tickets', 'Damage Deposit', 'Gas', 'Parking', 'Beer',
 	];
 
-	for ($i = 0; $i < 5; $i++) {
+	for ($i = 0; $i < 7; $i++) {
 		$data = [
 			'name' => $things[mt_rand(0, count($things) - 1)],
 			'amount' => mt_rand(5, 200),
@@ -121,6 +121,25 @@ if ($command === 'all' || $command === 'expenses') {
 		try {
 			$client = new GuzzleHttp\Client();
 			$res = $client->request('POST', "http://localhost:{$port}/{$root}import-expense.php", ['form_params' => $data]);
+			echo $res->getStatusCode() . "\n";
+			echo $res->getBody() . "\n";
+		} catch (Exception $e) {
+			echo $e->getResponse()->getBody();
+			die;
+		}
+	}
+}
+
+if ($command === 'all' || $command === 'trips') {
+	$trips = [
+		'Ski Trip',
+	];
+
+	foreach ($trips as $trip) {
+
+		try {
+			$client = new GuzzleHttp\Client();
+			$res = $client->request('GET', "http://localhost:{$port}/{$root}process-trip.php?action=add&name={$trip}");
 			echo $res->getStatusCode() . "\n";
 			echo $res->getBody() . "\n";
 		} catch (Exception $e) {
