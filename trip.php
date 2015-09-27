@@ -24,9 +24,10 @@
 			<div class="panel-heading">
 				<h2>Trip Map</h2>
 			</div>
-		</div>
+		
 		<div class="panel-body">
 			<div id="atm-map"></div>
+		</div>
 		</div>
 	</div>	
 </div>
@@ -115,7 +116,7 @@
 
 <?= '<script type="handlerbars-template" id="trip-expense-by-user-template">' ?>
 	<div class="panel panel-default">
-		<div class="panel-heading"><h2>Expense Participation Matrix</h2></div>
+		<div class="panel-heading"><h2>Expense Matrix</h2></div>
 
 		<div class="panel-body">
 			<p>Check marks in this table represent participation in the expense</p>
