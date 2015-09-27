@@ -24,11 +24,12 @@ switch ($action) {
 			echo "A trip without a name is like a person without a soul.";
 			die;
 		}
-
-		$trip->setName($name);
-		$trip->setUsers(array());
-		
+			
+		$trip = new Model\Trip(mt_rand(), $name, $user);
+		$data->addTrip($trip);
 		$data->save();
+		
+		echo json_encode($trip->jsonSerialize());
 		break;
 
 	case "remove":
