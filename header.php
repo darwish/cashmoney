@@ -35,29 +35,23 @@
       </button>
       <a class="navbar-brand" href="your-trips.php">Home</a>
     </div>
-
-	<?php
-	$tripID = isset($_GET['tripID']) ? $_GET['tripID'] : null;
-	//$trip = $data->getTripByID($tripID);
-	?>
-	
-	
-	
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 	<ul class="nav navbar-nav">
+    <?php if (isset($trips) && count($trips) > 0 ): ?>
 	<li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?= $trip->getName(); ?> <span class="caret"></span></a>
           <ul class="dropdown-menu">
-            <li><a href="#">Action</a></li>
-            <li><a href="#">Another action</a></li>
-            <li><a href="#">Something else here</a></li>
+            <?php foreach ($trips as $trip): ?>
+            <li><a href="/trip.php?tripID=<?=$trip->getID(); ?>"><?= $trip->getName(); ?></a></li>
+            <?php endforeach; ?>
+            <?php if (isset($trips) && count($trips) > 0) :?>
             <li role="separator" class="divider"></li>
-            <li><a href="#">Separated link</a></li>
-            <li role="separator" class="divider"></li>
-            <li><a href="#">One more separated link</a></li>
+            <?php endif; ?>
+            <li><a href="/">Overview</a></li>
           </ul>
        </li>
+     <?php endif; ?>
 	</ul>
 	
       <form class="navbar-form navbar-right" role="search">

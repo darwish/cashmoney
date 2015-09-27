@@ -1,3 +1,16 @@
+
+<?php require __DIR__ . '/bootstrap.php';
+
+	$data = new CashMoney\Data\Data();
+
+	$tripID = isset($_GET['tripID']) ? $_GET['tripID'] : null;
+
+	$trip = $data->getTrip($tripID);
+	$trips = $data->getTrips();
+	$expenses = $data->getExpenses();
+
+	$payments = $data->splitExpenses($expenses);
+?>
 <?php require_once 'header.php' ?>
 
 <div class="row">
