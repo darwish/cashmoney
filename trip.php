@@ -19,7 +19,10 @@
 
 <?= '<script type="handlerbars-template" id="trip-expense-template">' ?>
 	<div class="col-sm-8">
-		<h2>Total Expenses</h2>
+		<div class="panel panel-default">
+			<div class="panel-heading"><h2>Total Expenses</h2></div>
+			<div class="panel-body">
+		
 		<table class="table table-striped table-hover expenses">
 			<tr>
 				<th>Expense</th>
@@ -43,12 +46,17 @@
 				<th></th>
 			</tr>
 		</table>
+		</div>
+		</div>
 	</div>
 <?= '</script>' ?>
 
 <?= '<script type="handlerbars-template" id="trip-payment-template">' ?>
 	<div class="col-sm-8">
-		<h2>Pay Me Back</h2>
+		<div class="panel panel-default">
+			<div class="panel-heading"><h2>Pay Me Back</h2></div>
+			<div class="panel-body">
+		
 		<ul class="list-group payments">
 			{{#each payments}}
 				<li class="list-group-item clearfix">
@@ -60,12 +68,17 @@
 				</li>
 			{{/each}}
 		</table>
+		</div>
+		</div>
 	</div>
 <?= '</script>' ?>
 
 <?= '<script type="handlerbars-template" id="trip-expense-by-user-template">' ?>
 	<div class="col-sm-8">
-		<h2>Expense Participation Matrix</h2>
+		<div class="panel panel-default">
+			<div class="panel-heading"><h2>Expense Participation Matrix</h2></div>
+			<div class="panel-body">
+		
 		<p>Check marks in this table represent participation in the expense</p>
 
 		<table class="table table-bordered table-hover expenses">
@@ -95,6 +108,8 @@
 				</tr>
 			{{/each}}
 		</table>
+		</div>
+		</div>
 	</div>
 <?= '</script>' ?>
 <script>
