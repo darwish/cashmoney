@@ -2,7 +2,7 @@
 <?php
 	$data = new CashMoney\Data\Data();
 
-	$tripID = isset($_GET['tripID']) ? $_GET['tripID'] : null;
+	$tripID = isset($_GET['id']) ? $_GET['id'] : null;
 
 	$trip = $data->getTrip($tripID);
 	$expenses = $trip->getExpenses();
@@ -161,7 +161,7 @@
 			var debtorID = button.data('debtor-id');
 			var lenderID = button.data('lender-id');
 
-			$.post('do-payment.php', { tripID: <?= $trip->getID() ?>, debtorID: debtorID, lenderID: lenderID })
+			$.post('do-payment.php', { tripID: "<?= $trip->getID() ?>", debtorID: debtorID, lenderID: lenderID })
 				.done(function() {
 					alert("Paid!");
 					console.log(arguments);
