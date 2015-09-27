@@ -38,7 +38,7 @@
 		});
 		
 		$('.past-trips').on('click', 'a', function(e) {
-			e.preventDefault();
+		//	e.preventDefault();
 		});
 		
 		function addTrip()

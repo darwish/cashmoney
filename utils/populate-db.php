@@ -15,6 +15,10 @@ if (!in_array($command, $validCommands)) {
 	exit(1);
 }
 
+$opts = getopt("p:d:");
+$port = isset($opts['p']) && $opts['p'] ? $opts['p'] : 80;
+$root = isset($opts['d']) && $opts['d'] ? $opts['d'] : '';
+
 if ($command === 'all' || $command === 'users') {
 	$users = [
 		['id' => 1, 'name' => 'Darwish'],
@@ -32,7 +36,7 @@ if ($command === 'all' || $command === 'users') {
 
 		try {
 			$client = new GuzzleHttp\Client();
-			$res = $client->request('POST', 'http://localhost:6789/import-user.php', ['form_params' => $data]);
+			$res = $client->request('POST', 'http://localhost:{$port}/{$root}import-user.php', ['form_params' => $data]);
 
 			echo $res->getStatusCode() . "\n";
 			echo $res->getBody() . "\n";
@@ -54,10 +58,10 @@ if ($command === 'all' || $command === 'expenses') {
 			'amount' => mt_rand(5, 200),
 		];
 
+
 		try {
 			$client = new GuzzleHttp\Client();
-			$res = $client->request('POST', 'http://localhost:6789/import-expense.php', ['form_params' => $data]);
-
+			$res = $client->request('POST', "http://localhost:{$port}/{$root}import-expense.php", ['form_params' => $data]);
 			echo $res->getStatusCode() . "\n";
 			echo $res->getBody() . "\n";
 		} catch (Exception $e) {
