@@ -40,7 +40,8 @@ class Data {
 
 	public function getTrips() {
 		$trips = array_values(array_filter($this->data['trips'], function($trip) {
-			return !empty($trip->getID());
+			$tripID = $trip->getID();
+			return !empty($tripID);
 		}));
 		$this->data['trips'] = $trips;
 		$this->save();
@@ -124,6 +125,10 @@ class Data {
 			$debtor = $this->getUserByID($split[0]);
 			$lender = $this->getUserByID($split[1]);
 			$amount = $split[2];
+
+			if ($split[0] == $split[1] || $amount <= 0) {
+				continue;
+			}
 
 			$payments[] = new Model\Payment($debtor, $lender, $amount);
 		}
