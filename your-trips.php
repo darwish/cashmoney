@@ -1,10 +1,16 @@
+<?php require __DIR__ . '/bootstrap.php'; ?>
 <?php require 'header.php'; ?>
 
 <div class="row">
-	<div class="col-sm-4">
-		<h1 class="title">CashMoney</h1><img class="piggybank-icon pull-right" src="img/piggybank.png"/>
+	<div class="col-sm-8">
+		<div class="panel panel-default">
+			<div class="panel-heading"><h1 class="title">CashMoney</h1><img class="piggybank-icon pull-right" src="img/piggybank.png"/></div>
+			<div class="panel-body">
+		
 		<p><a class="add-trip" href="#">Add a new trip</a></p>
 		<div class="list-group past-trips"></div>
+		</div>
+		</div>
 	</div>
 </div>
 
@@ -16,11 +22,8 @@
 
 <script>
 	$(function() {
-		var fakeTripData = [
-			{ id: 3, name: "New Zealand Ski Trip" },
-			{ id: 2, name: "Last week at the pub" },
-			{ id: 1, name: "International Space Station" },
-		];	
+		<?php $data = new CashMoney\Data\Data(); ?>
+		var lessFakeTripData = <?= json_encode($data->getTrips()) ?>;
 		
 		listTrips();
 		
@@ -47,13 +50,13 @@
 			$('.past-trips input').val('');
 			
 			$.getJSON('process-trip.php?action=add', { name: name }, function(response) {
-				fakeTripData.unshift(response);
+				lessFakeTripData.unshift(response);
 				listTrips();				
 			}).fail(function() { alert('Failed to create trip.') });
 		}
 		
 		function listTrips() {
-			$('.past-trips').html(renderTemplate('trip-item-template', fakeTripData));
+			$('.past-trips').html(renderTemplate('trip-item-template', lessFakeTripData));
 		}
 		
 		$('.past-trips').on('click', '.remove', function(e) {
@@ -61,7 +64,7 @@
 			
 			if (confirm("Are you sure you want to delete this trip?")) {
 				var id = $(e.target).closest('a').data('id');
-				fakeTripData = fakeTripData.filter(function(x) { return x.id !== id; });
+				lessFakeTripData = lessFakeTripData.filter(function(x) { return x.id !== id; });
 				listTrips();
 				$.get('process-trip?action=remove', id);
 			}

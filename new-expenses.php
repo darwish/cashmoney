@@ -6,7 +6,9 @@
 
 <?= '<script type="handlerbars-template" id="expense-template">' ?>
 	<div class="col-sm-8">
-		<h1>New Expenses</h1>
+	<div class="panel panel-default">
+		<div class="panel-heading"><h1>New Expenses</h1></div>
+		<div class="panel-body">
 		<p>You have {{expenseCount}} new {{expenseInflected}} to file.</p>
 
 		<table class="table table-striped table-hover expenses">
@@ -37,6 +39,8 @@
 				<tr class="share hidden"></tr>
 			{{/each}}
 		</table>
+		</div>
+		</div>
 	</div>
 <?= '</script>' ?>
 

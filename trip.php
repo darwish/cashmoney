@@ -13,10 +13,16 @@
 
 <div class="row" id="trip-expenses-container">
 </div>
+<div class="row">
+	<div id="atm-map" class="col-sm-8" style="height: 600px"></div>
+</div>
 
 <?= '<script type="handlerbars-template" id="trip-expense-template">' ?>
 	<div class="col-sm-8">
-		<h2>Total Expenses</h2>
+		<div class="panel panel-default">
+			<div class="panel-heading"><h2>Total Expenses</h2></div>
+			<div class="panel-body">
+		
 		<table class="table table-striped table-hover expenses">
 			<tr>
 				<th>Expense</th>
@@ -40,12 +46,17 @@
 				<th></th>
 			</tr>
 		</table>
+		</div>
+		</div>
 	</div>
 <?= '</script>' ?>
 
 <?= '<script type="handlerbars-template" id="trip-payment-template">' ?>
 	<div class="col-sm-8">
-		<h2>Pay Me Back</h2>
+		<div class="panel panel-default">
+			<div class="panel-heading"><h2>Pay Me Back</h2></div>
+			<div class="panel-body">
+		
 		<ul class="list-group payments">
 			{{#each payments}}
 				<li class="list-group-item clearfix">
@@ -67,12 +78,17 @@
 				</li>
 			{{/each}}
 		</table>
+		</div>
+		</div>
 	</div>
 <?= '</script>' ?>
 
 <?= '<script type="handlerbars-template" id="trip-expense-by-user-template">' ?>
 	<div class="col-sm-8">
-		<h2>Expense Participation Matrix</h2>
+		<div class="panel panel-default">
+			<div class="panel-heading"><h2>Expense Participation Matrix</h2></div>
+			<div class="panel-body">
+		
 		<p>Check marks in this table represent participation in the expense</p>
 
 		<table class="table table-bordered table-hover expenses">
@@ -102,9 +118,10 @@
 				</tr>
 			{{/each}}
 		</table>
+		</div>
+		</div>
 	</div>
 <?= '</script>' ?>
-
 <script>
 	$(function() {
 		var expenses = <?= json_encode($expenses); ?>;
@@ -155,8 +172,33 @@
 				});
 		});
 	});
+
+	function initMap() {
+		navigator.geolocation.getCurrentPosition(function(position) {
+
+		  var map = new google.maps.Map(document.getElementById('atm-map'), {
+		  	center: {lat: position.coords.latitude, lng: position.coords.longitude},
+		  	zoom: 4
+		  });
+
+		  $.get('/find-atm.php?latitude='+position.coords.latitude+'&longitude='+position.coords.longitude, function (data, status, xhr) {
+		  	for (var i = 0; i < data.length; i++) {
+		  		var latLng = new google.maps.LatLng(data[i].position.lat, data[i].position.lng);
+		  		var marker = new google.maps.Marker({
+		  			position: latLng,
+		  			title: data[i].title,
+		  			visible: true
+		  		});
+		  		marker.setMap(map);
+		  	}
+		  });
+		});
+	}
+
 </script>
 
-<iframe width="800" height="600" frameborder="1" style="border:0" src="https://www.google.com/maps/embed/v1/search?key=AIzaSyCsA7P1BKADJMcmSgi9z31iY3dIIOGewYs&q={{location}}" allowfullscreen></iframe>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCsA7P1BKADJMcmSgi9z31iY3dIIOGewYs&callback=initMap" async defer></script>
+
+<!-- <iframe id="atm-map" width="800" height="600" frameborder="1" style="border:0" src="https://www.google.com/maps/embed/v1/search?key=AIzaSyCsA7P1BKADJMcmSgi9z31iY3dIIOGewYs&q={{location}}" allowfullscreen></iframe> -->
 
 <?php require 'footer.php'; ?>

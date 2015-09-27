@@ -37,6 +37,12 @@ class Data {
 	}
 
 	public function getTrips() {
+		/*$trips = array_values(array_filter($this->data['trips'], function($trip) {
+			return !empty($trip->getID());
+		}));
+		$this->data['trips'] = $trips;
+		$this->save();*/
+		
 		return isset($this->data['trips']) ? $this->data['trips'] : [];
 	}
 
