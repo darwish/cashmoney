@@ -93,20 +93,6 @@
 				{{#each payments}}
 					<li class="list-group-item clearfix">
 						<b>{{debtor.name}}</b> owes <b>{{formattedAmount}}</b> to <b>{{lender.name}}</b>
-
-						<span class="pull-right">
-							{{#if isPaid}}
-								<button class="btn btn-default" disabled>
-									<img src="img/mastercard.ico">
-									Paid
-								</button>
-							{{else}}
-								<button class="btn btn-default do-payment" data-debtor-id="{{debtor.id}}" data-lender-id="{{lender.id}}">
-									<img src="img/mastercard.ico">
-									<span class="do-payment-text">Pay {{lender.name}}</span>
-								</button>
-							{{/if}}
-						</span>
 					</li>
 				{{/each}}
 			</ul>
