@@ -65,14 +65,14 @@
 
 					<span class="pull-right">
 						{{#if isPaid}}
-							<button class="btn btn-primary" disabled>
+							<button class="btn btn-default" disabled>
 								<img src="img/mastercard.ico">
 								Paid
 							</button>
 						{{else}}
 							<button class="btn btn-default do-payment" data-debtor-id="{{debtor.id}}" data-lender-id="{{lender.id}}">
 								<img src="img/mastercard.ico">
-								Pay {{lender.name}}
+								<span class="do-payment-text">Pay {{lender.name}}</span>
 							</button>
 						{{/if}}
 					</span>
@@ -159,15 +159,24 @@
 
 		$('#trip-expenses-container').on('click', '.do-payment', function() {
 			var button = $(this);
+			var buttonText = button.find('.do-payment-text');
 			var debtorID = button.data('debtor-id');
 			var lenderID = button.data('lender-id');
 
+			var originalText = buttonText.text();
+
+			button.prop('disabled', true);
+			buttonText.text('Processing...');
+
 			$.post('do-payment.php', { tripID: "<?= $trip->getID() ?>", debtorID: debtorID, lenderID: lenderID })
 				.done(function() {
-					alert("Paid!");
+					buttonText.text('Paid');
 					console.log(arguments);
 				})
 				.fail(function() {
+					button.prop('disabled', false);
+					buttonText.text(originalText);
+
 					alert("Something went wrong!");
 					console.error(arguments);
 				});
