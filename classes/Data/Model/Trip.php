@@ -10,7 +10,7 @@ class Trip implements \JsonSerializable {
 	private $expenses;
 	private $payments;
 
-	public function __contstruct($id, $name, Model\User $creator) {
+	public function __construct($id, $name, User $creator) {
 		$this->id = $id;
 		$this->name = $name;
 		$this->users = array($creator);
@@ -18,19 +18,19 @@ class Trip implements \JsonSerializable {
 		$this->payments = array();
 	}
 	
-	public function addExpense(Model\Expense $expense) {
+	public function addExpense(Expense $expense) {
 		$this->expenses[] = $expense;
 	}
 	
-	public function addPayment(Model\Payment $payment) {
+	public function addPayment(Payment $payment) {
 		$this->payments[] = $payment;
 	}
 	
-	public function addUser(Model\User $user) {
+	public function addUser(User $user) {
 		$this->users[] = $user;
 	}
 	
-	public function removeUser(Model\User $user) {
+	public function removeUser(User $user) {
 		$index = array_search($user, $this->users);
 		array_splice($this->users, $index, 1);
 	}
