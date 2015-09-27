@@ -35,7 +35,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="your-trips.php"><img src="/img/logo.png" style="max-height: 35px; margin-top: -7px; display: inline-block; margin-right: 7px;"><span style="
+      <a class="navbar-brand" href="your-trips.php"><img src="img/logo.png" style="max-height: 35px; margin-top: -7px; display: inline-block; margin-right: 7px;"><span style="
     top: -3px;
     position: relative;
 ">Home</span></a>
