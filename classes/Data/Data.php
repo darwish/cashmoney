@@ -32,7 +32,9 @@ class Data {
 	}
 
 	public function addTrip(Model\Trip $trip) {
-		$this->data['trips'][] = $trip;
+		// Prepend so that more recent ones come up first.
+		$this->data['trips'] = isset($this->data['trips']) ? $this->data['trips'] : [];
+		array_unshift($this->data['trips'], $trip);
 		$this->save();
 	}
 
