@@ -43,14 +43,13 @@
 		
 		function addTrip()
 		{
-			var nextID = fakeTripData[0].id + 1;
 			var name = $('.past-trips input').val();
 			$('.past-trips input').val('');
-			fakeTripData.unshift({ id: nextID, name: name });
-			listTrips();
 			
-			$.get('add-trip', fakeTripData[0])
-				.fail(function() { alert('Failed to create trip.') });
+			$.getJSON('process-trip.php?action=add', { name: name }, function(response) {
+				fakeTripData.unshift(response);
+				listTrips();				
+			}).fail(function() { alert('Failed to create trip.') });
 		}
 		
 		function listTrips() {
@@ -64,7 +63,7 @@
 				var id = $(e.target).closest('a').data('id');
 				fakeTripData = fakeTripData.filter(function(x) { return x.id !== id; });
 				listTrips();
-				$.get('remove-trip', id);
+				$.get('process-trip?action=remove', id);
 			}
 		});
 	})
