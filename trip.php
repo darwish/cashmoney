@@ -4,8 +4,8 @@
 
 	$tripID = isset($_GET['tripID']) ? $_GET['tripID'] : null;
 
-	// $trip = $data->getTripByID($tripID);
-	$expenses = $data->getExpenses();
+	$trip = $data->getTrip($tripID);
+	$expenses = $trip->getExpenses();
 
 	$payments = $data->splitExpenses($expenses);
 ?>
@@ -52,7 +52,17 @@
 					<b>{{debtor.name}}</b> owes <b>{{formattedAmount}}</b> to <b>{{lender.name}}</b>
 
 					<span class="pull-right">
-						<button class="btn btn-primary do-payment" data-debtor-id="{{debtor.id}}" data-lender-id="{{lender.id}}">Pay {{lender.name}}</button>
+						{{#if isPaid}}
+							<button class="btn btn-primary">
+								<img src="img/mastercard.ico">
+								Paid
+							</button>
+						{{else}}
+							<button class="btn btn-default do-payment" data-debtor-id="{{debtor.id}}" data-lender-id="{{lender.id}}">
+								<img src="img/mastercard.ico">
+								Pay {{lender.name}}
+							</button>
+						{{/if}}
 					</span>
 				</li>
 			{{/each}}
