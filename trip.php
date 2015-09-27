@@ -55,7 +55,7 @@
 
 <?= '<script type="handlerbars-template" id="trip-payment-template">' ?>
 	<div class="col-sm-8">
-		<div class="panel panel-default">
+		<div class="panel panel-default payments-panel">
 			<div class="panel-heading">
 				<h2>
 					Pay Me Back
@@ -250,6 +250,12 @@
 			$.post('do-payment.php', { tripID: "<?= $trip->getID() ?>" })
 				.done(function() {
 					buttonText.text('All Paid');
+
+					// Disable all individual payment buttons too
+					button.closest('.payments-panel').find('.do-payment')
+						.prop('disabled', true)
+						.find('.do-payment-text').text('Paid');
+
 					console.log(arguments);
 				})
 				.fail(function() {
