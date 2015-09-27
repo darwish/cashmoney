@@ -146,7 +146,9 @@
 		var expenses = <?= json_encode($expenses); ?>;
 		var users = <?= json_encode($data->getUsers()); ?>;
 		var payments = <?= json_encode($payments); ?>;
+
 		var total = 0;
+		var isAllPaid = true;
 
 		// Process data for rendering
 		for (var i = 0; i < expenses.length; i++) {
@@ -157,6 +159,9 @@
 
 		for (var i = 0; i < payments.length; i++) {
 			payments[i].formattedAmount = formatMoney(payments[i].amount, 2, '.', ',', true);
+			if (!payments[i].isPaid) {
+				isAllPaid = false;
+			}
 		}
 
 		var expenseData = {
@@ -167,7 +172,9 @@
 			users: users
 		};
 
+
 		var paymentData = {
+			isAllPaid: isAllPaid,
 			payments: payments
 		}
 

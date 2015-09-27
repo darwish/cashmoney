@@ -16,35 +16,31 @@ $data = new CashMoney\Data\Data();
 
 if ($debtorID && $lenderID) {
 	$payment = $data->getPayment($tripID, $debtorID, $lenderID);
-
-	$transfer = new CashMoney\MasterCardTransfer();
-	$transferRequest = $transfer->doTransferRequestCardAccount();
-
-	$payment->setIsPaid(true);
-	$data->save();
+	doPayment($payment, $data);
 } else {
 	// Pay all if no debtor/lender is specified
 	$trip = $data->getTrip($tripID);
 	$payments = $trip->getPayments();
 
 	foreach ($payments as $payment) {
-		$transfer = new CashMoney\MasterCardTransfer();
-		$transferRequest = $transfer->doTransferRequestCardAccount();
-
-		$payment->setIsPaid(true);
-		$data->save();
+		if (!$payment->getIsPaid()) {
+			doPayment($payment, $data);
+		}
 	}
 }
 
-// $address = new \Address();
-// $address->setLine1("123 Main Street");
-// $address->setLine2("#5A");
-// $address->setCity("Arlington");
-// $address->setCountrySubdivision("VA");
-// $address->setPostalCode(22207);
-// $address->setCountry("USA");
+function doPayment(CashMoney\Data\Model\Payment $payment, $data) {
+	$senderAddress = $payment->getDebtor()->getAddress();
+	$fundingCard = $payment->getDebtor()->getCard();
 
-// $fundingCard = new \FundingCard();
-// $fundingCard->setAccountNumber("5184680430000006");
-// $fundingCard->setExpiryMonth(11);
-// $fundingCard->setExpiryYear(2018);
+	$transfer = new CashMoney\MasterCardTransfer();
+
+	$transferRequest = $transfer->doTransferRequestCardAccount(
+        $payment->getAmount(),
+        $payment->getDebtor()->getName(), $payment->getDebtor()->getAddress(), $payment->getDebtor()->getCard(),
+        $payment->getLender()->getName(), $payment->getLender()->getAddress(), $payment->getLender()->getCard()
+	);
+
+	$payment->setIsPaid(true);
+	$data->save();
+}

@@ -5,6 +5,7 @@ require __DIR__ . '/bootstrap.php';
 $id = isset($_POST['id']) ? (int)$_POST['id'] : null;
 $name = isset($_POST['name']) ? $_POST['name'] : null;
 
+$phone = isset($_POST['phone']) ? $_POST['phone'] : null;
 $addressData = isset($_POST['address']) ? $_POST['address'] : null;
 $cardData = isset($_POST['card']) ? $_POST['card'] : null;
 
@@ -15,6 +16,9 @@ if (!$id) {
 try {
 	if (!$name) {
 		throw new InvalidArgumentException("Missing name");
+	}
+	if (!$phone) {
+		throw new InvalidArgumentException("Missing phone");
 	}
 	if (!$addressData) {
 		throw new InvalidArgumentException("Missing address");
@@ -34,6 +38,7 @@ $user = new CashMoney\Data\Model\User();
 
 $user->setID($id);
 $user->setName($name);
+$user->setPhone($phone);
 
 $address = new \Address();
 $address->setLine1($addressData['line1']);

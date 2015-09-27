@@ -8,6 +8,7 @@ class User implements \JsonSerializable {
 	private $name;
 	private $photofile;
 
+	private $phone;
 	private $address;
 	private $card; // TOP SECRET!!! pls don't output contents of this variable.
 
@@ -21,6 +22,7 @@ class User implements \JsonSerializable {
 			'expenses' => $this->expenses,
 			'payments' => $this->payments,
 			'photo'	   => $this->photofile,
+			'phone'    => $this->phone,
 			'address'  => $this->address,
 			'card'     => $this->card,
 		];
@@ -46,6 +48,13 @@ class User implements \JsonSerializable {
 	}
 	public function setName($name) {
 		$this->name = $name;
+	}
+
+	public function getPhone() {
+		return $this->phone;
+	}
+	public function setPhone($phone) {
+		$this->phone = $phone;
 	}
 
 	public function getAddress() {
