@@ -51,7 +51,7 @@
 
           <ul class="dropdown-menu">
             <?php foreach ($trips as $trip): ?>
-            <li><a href="/trip.php?id=<?=$trip->getID(); ?>"><?= $trip->getName(); ?></a></li>
+            <li><a href="trip.php?id=<?=$trip->getID(); ?>"><?= $trip->getName(); ?></a></li>
             <?php endforeach; ?>
           </ul>
        </li>
