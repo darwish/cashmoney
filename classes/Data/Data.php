@@ -124,11 +124,8 @@ class Data {
 	}
 
 	public function getPayment($tripID, $debtorID, $lenderID) {
-		// $trip = $this->getTripByID($tripID);
-		// $expenses = $trip->getExpenses();
-		$expenses = $this->getExpenses();
-
-		$payments = $this->splitExpenses($expenses);
+		$trip = $this->getTrip($tripID);
+		$payments = $trip->getPayments();
 
 		foreach ($payments as $payment) {
 			$isCorrectDebtor = $payment->getDebtor()->getID() == $debtorID;

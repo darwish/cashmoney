@@ -144,7 +144,7 @@
 			var debtorID = button.data('debtor-id');
 			var lenderID = button.data('lender-id');
 
-			$.post('do-payment.php', { tripID: null, debtorID: debtorID, lenderID: lenderID })
+			$.post('do-payment.php', { tripID: <?= $trip->getID() ?>, debtorID: debtorID, lenderID: lenderID })
 				.done(function() {
 					alert("Paid!");
 					console.log(arguments);

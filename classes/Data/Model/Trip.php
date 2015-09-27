@@ -8,7 +8,7 @@ class Trip implements \JsonSerializable {
 	private $id;
 	private $users;
 	private $expenses = [];
-	private $payments = [];
+	private $payments;
 
 	public function __construct($id, $name, User $creator) {
 		$this->id = $id;
